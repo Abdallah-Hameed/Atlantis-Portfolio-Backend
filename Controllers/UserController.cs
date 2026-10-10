@@ -162,4 +162,68 @@ public class UserController : ControllerBase
                 Problem(statusCode: StatusCodes.Status500InternalServerError, title: "Internal server error", detail: "Failed to update user status.")
         };
     }
+
+    [Authorize]
+    [HttpDelete("Delete")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status423Locked)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteUser([FromBody] clsDeleteUserRequestDto request)
+    {
+        // استخرج الـ userId الحالي من JWT
+        var currentUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!int.TryParse(currentUserIdClaim, out int currentUserId))
+            return Unauthorized("Invalid token.");
+
+        // 🛡️ الحماية: منع حذف الحساب المسجل حالياً
+        if (currentUserId == request.TargetUserId)
+        {
+            return Problem(
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Cannot delete yourself",
+                detail: "You cannot delete the account you are currently logged in with.");
+        }
+
+        string? ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+        var result = await _userService.DeleteUserAsync(
+            request.TargetUserId,
+            request.MasterPassword,
+            ipAddress);
+
+        return result switch
+        {
+            enOperationResult.Success =>
+                Ok("User deleted successfully."),
+
+            enOperationResult.InvalidData =>
+                Problem(statusCode: StatusCodes.Status400BadRequest,
+                    title: "Invalid data",
+                    detail: "The provided data is invalid."),
+
+            enOperationResult.NotFound =>
+                Problem(statusCode: StatusCodes.Status404NotFound,
+                    title: "User not found",
+                    detail: "User not found."),
+
+            enOperationResult.InvalidCredentials =>
+                Problem(statusCode: StatusCodes.Status401Unauthorized,
+                    title: "Invalid credentials",
+                    detail: "Invalid master password."),
+
+            enOperationResult.AccountLocked =>
+                Problem(statusCode: StatusCodes.Status423Locked,
+                    title: "Account locked",
+                    detail: "Too many failed attempts. Try again later."),
+
+            _ =>
+                Problem(statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Internal server error",
+                    detail: "Failed to delete user.")
+        };
+    }
 }

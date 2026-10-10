@@ -278,4 +278,85 @@ public class clsUserService
             return enOperationResult.Failed;
         }
     }
+
+    public async Task<enOperationResult> DeleteUserAsync(int targetUserId, string masterPassword, string? ipAddress)
+    {
+        if (targetUserId <= 0 || string.IsNullOrWhiteSpace(masterPassword))
+            return enOperationResult.InvalidData;
+
+        try
+        {
+
+            var security = await _context.SecuritySettings.FirstOrDefaultAsync();
+
+            if (security == null || string.IsNullOrWhiteSpace(security.CriticalActionSecretHash))
+            {
+                _logger.LogError("SecuritySetting row is missing or master password hash is not configured.");
+
+                return enOperationResult.Failed;
+            }
+
+
+            if (security.LockoutUntil.HasValue && security.LockoutUntil.Value > DateTime.UtcNow)
+            {
+                _logger.LogWarning("Critical action rejected: locked out until {LockoutUntil}.", security.LockoutUntil);
+
+                return enOperationResult.AccountLocked;
+            }
+
+
+            if (!BCrypt.Net.BCrypt.Verify(masterPassword, security.CriticalActionSecretHash))
+            {
+                security.FailedAttempts++;
+
+                if (security.FailedAttempts >= 3)
+                {
+                    security.LockoutUntil = DateTime.UtcNow.AddHours(1);
+
+                    _logger.LogWarning("Critical action locked after {Attempts} failed attempts.", security.FailedAttempts);
+                }
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogWarning("Critical action failed: invalid master password. Attempts: {Attempts}.", security.FailedAttempts);
+
+                return enOperationResult.InvalidCredentials;
+            }
+
+            var user = await _context.Users.FindAsync(targetUserId);
+
+            if (user == null)
+            {
+                _logger.LogWarning("User delete failed: user {UserId} not found.", targetUserId);
+
+                return enOperationResult.NotFound;
+            }
+
+            _context.Users.Remove(user);
+
+  
+            security.FailedAttempts = 0;
+
+            security.LockoutUntil = null;
+
+            var affectedRows = await _context.SaveChangesAsync();
+
+            if (affectedRows > 0)
+            {
+                _logger.LogInformation("User {UserId} deleted successfully.", targetUserId);
+
+                return enOperationResult.Success;
+            }
+
+            _logger.LogWarning("User delete failed: no rows affected. UserId: {UserId}.", targetUserId);
+
+            return enOperationResult.Failed;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while deleting user {UserId}.", targetUserId);
+
+            return enOperationResult.Failed;
+        }
+    }
 }
