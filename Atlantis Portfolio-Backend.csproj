@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Atlantis_Portfolio_Backend</RootNamespace>
+    <DefaultItemExcludes>$(DefaultItemExcludes);**/bin/**;**/obj/**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="8.11.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Atlantis Portfolio-Backend-BLL\**" />
+    <Compile Remove="Atlantis Portfolio-Backend-DAL\**" />
+    <Compile Remove="Atlantis-Portfolio-Backend-Tests\**" />
+    <EmbeddedResource Remove="Atlantis Portfolio-Backend-BLL\**" />
+    <EmbeddedResource Remove="Atlantis Portfolio-Backend-DAL\**" />
+    <EmbeddedResource Remove="Atlantis-Portfolio-Backend-Tests\**" />
+    <None Remove="Atlantis Portfolio-Backend-BLL\**" />
+    <None Remove="Atlantis Portfolio-Backend-DAL\**" />
+    <None Remove="Atlantis-Portfolio-Backend-Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Atlantis Portfolio-Backend-BLL\Atlantis Portfolio-Backend-BLL.csproj" />
+  </ItemGroup>
+
+</Project>

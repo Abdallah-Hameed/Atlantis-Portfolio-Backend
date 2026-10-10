@@ -1,0 +1,28 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Atlantis_Portfolio_Backend;
+
+public class clsAddPortfolioProfileDto
+{
+    [Required]
+    [StringLength(200, MinimumLength = 1)]
+    public string FullName { get; set; } = null!;
+
+    [Required]
+    [StringLength(200, MinimumLength = 1)]
+    public string ProfessionalTitle { get; set; } = null!;
+
+    [Required]
+    public string Bio { get; set; } = null!;
+
+    [StringLength(500)]
+    [Url]
+    public string? ProfileImageUrl { get; set; }
+
+    [StringLength(255)]
+    [EmailAddress]
+    public string? Email { get; set; }
+
+    [StringLength(200)]
+    public string? Location { get; set; }
+}

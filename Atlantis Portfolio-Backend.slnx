@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Atlantis Portfolio-Backend-BLL/Atlantis Portfolio-Backend-BLL.csproj" />
+  <Project Path="Atlantis Portfolio-Backend-DAL/Atlantis Portfolio-Backend-DAL.csproj" />
+  <Project Path="Atlantis Portfolio-Backend.csproj" />
+</Solution>
