@@ -1,3 +1,5 @@
+using Atlantis_Portfolio_Backend.Middleware;
+
 using Atlantis_Portfolio_Backend_BLL;
 using Atlantis_Portfolio_Backend_BLL.Services;
 using Atlantis_Portfolio_Backend_DAL.Context;
@@ -113,6 +115,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

@@ -20,13 +20,13 @@ public class clsAuthServiceTests
     private (AppDbContext Context, SqliteConnection Connection) GetSqliteDbContext()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
+
         connection.Open();
 
-        var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseSqlite(connection)
-            .Options;
+        var options = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connection).Options;
 
         var context = new AppDbContext(options);
+
         context.Database.EnsureCreated();
 
         return (context, connection);
@@ -37,14 +37,21 @@ public class clsAuthServiceTests
     {
         // Arrange
         var (context, connection) = GetSqliteDbContext();
+
         using var _ = context;
+
         using var __ = connection;
+
         var tokenServiceMock = new Mock<clsTokenService>(Mock.Of<Microsoft.Extensions.Configuration.IConfiguration>());
+
         var auditLogServiceMock = new Mock<clsAuditLogService>(context, Mock.Of<ILogger<clsAuditLogService>>());
+
         var loggerMock = new Mock<ILogger<clsAuthService>>();
 
         var password = "Password123!";
+
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
         var user = new User
         {
             Email = "test@example.com",
@@ -54,14 +61,16 @@ public class clsAuthServiceTests
         };
 
         context.Users.Add(user);
+
         await context.SaveChangesAsync();
 
         tokenServiceMock.Setup(s => s.GenerateAccessToken(It.IsAny<User>())).Returns("access-token");
+
         tokenServiceMock.Setup(s => s.GenerateRefreshToken()).Returns("refresh-token");
+
         tokenServiceMock.Setup(s => s.HashRefreshToken("refresh-token")).Returns(Encoding.UTF8.GetBytes("refresh-token-hash"));
 
-        auditLogServiceMock.Setup(s => s.AddAsync("Login", user.UserId, true, "127.0.0.1"))
-            .ReturnsAsync(enOperationResult.Success);
+        auditLogServiceMock.Setup(s => s.AddAsync("Login", user.UserId, true, "127.0.0.1")).ReturnsAsync(enOperationResult.Success);
 
         var authService = new clsAuthService(context, tokenServiceMock.Object, auditLogServiceMock.Object, loggerMock.Object);
 
@@ -70,10 +79,15 @@ public class clsAuthServiceTests
 
         // Assert
         result.Should().NotBeNull();
+
         result.Result.Should().Be(enOperationResult.Success);
+
         result.AccessToken.Should().Be("access-token");
+
         result.RefreshToken.Should().Be("refresh-token");
+
         result.User.Should().NotBeNull();
+
         result.User!.Email.Should().Be("test@example.com");
     }
 
@@ -82,14 +96,18 @@ public class clsAuthServiceTests
     {
         // Arrange
         var (context, connection) = GetSqliteDbContext();
+
         using var _ = context;
+
         using var __ = connection;
+
         var tokenServiceMock = new Mock<clsTokenService>(Mock.Of<Microsoft.Extensions.Configuration.IConfiguration>());
+
         var auditLogServiceMock = new Mock<clsAuditLogService>(context, Mock.Of<ILogger<clsAuditLogService>>());
+
         var loggerMock = new Mock<ILogger<clsAuthService>>();
 
-        auditLogServiceMock.Setup(s => s.AddAsync("FailedLogin", null, false, "127.0.0.1"))
-            .ReturnsAsync(enOperationResult.Success);
+        auditLogServiceMock.Setup(s => s.AddAsync("FailedLogin", null, false, "127.0.0.1")).ReturnsAsync(enOperationResult.Success);
 
         var authService = new clsAuthService(context, tokenServiceMock.Object, auditLogServiceMock.Object, loggerMock.Object);
 
@@ -98,6 +116,7 @@ public class clsAuthServiceTests
 
         // Assert
         result.Should().NotBeNull();
+
         result.Result.Should().Be(enOperationResult.InvalidCredentials);
     }
     [Fact]
@@ -105,10 +124,15 @@ public class clsAuthServiceTests
     {
         // Arrange
         var (context, connection) = GetSqliteDbContext();
+
         using var _ = context;
+
         using var __ = connection;
+
         var tokenServiceMock = new Mock<clsTokenService>(Mock.Of<Microsoft.Extensions.Configuration.IConfiguration>());
+
         var auditLogServiceMock = new Mock<clsAuditLogService>(context, Mock.Of<ILogger<clsAuditLogService>>());
+
         var loggerMock = new Mock<ILogger<clsAuthService>>();
 
         var user = new User
@@ -120,10 +144,10 @@ public class clsAuthServiceTests
         };
 
         context.Users.Add(user);
+
         await context.SaveChangesAsync();
 
-        auditLogServiceMock.Setup(s => s.AddAsync("FailedLogin", user.UserId, false, "127.0.0.1"))
-            .ReturnsAsync(enOperationResult.Success);
+        auditLogServiceMock.Setup(s => s.AddAsync("FailedLogin", user.UserId, false, "127.0.0.1")).ReturnsAsync(enOperationResult.Success);
 
         var authService = new clsAuthService(context, tokenServiceMock.Object, auditLogServiceMock.Object, loggerMock.Object);
 
@@ -132,6 +156,7 @@ public class clsAuthServiceTests
 
         // Assert
         result.Should().NotBeNull();
+
         result.Result.Should().Be(enOperationResult.InvalidCredentials);
     }
 
@@ -140,10 +165,15 @@ public class clsAuthServiceTests
     {
         // Arrange
         var (context, connection) = GetSqliteDbContext();
+
         using var _ = context;
+
         using var __ = connection;
+
         var tokenServiceMock = new Mock<clsTokenService>(Mock.Of<Microsoft.Extensions.Configuration.IConfiguration>());
+
         var auditLogServiceMock = new Mock<clsAuditLogService>(context, Mock.Of<ILogger<clsAuditLogService>>());
+
         var loggerMock = new Mock<ILogger<clsAuthService>>();
 
         var user = new User
@@ -156,6 +186,7 @@ public class clsAuthServiceTests
         };
 
         context.Users.Add(user);
+
         await context.SaveChangesAsync();
 
         var authService = new clsAuthService(context, tokenServiceMock.Object, auditLogServiceMock.Object, loggerMock.Object);
@@ -165,6 +196,7 @@ public class clsAuthServiceTests
 
         // Assert
         result.Should().NotBeNull();
+
         result.Result.Should().Be(enOperationResult.AccountLocked);
     }
 
@@ -173,10 +205,15 @@ public class clsAuthServiceTests
     {
         // Arrange
         var (context, connection) = GetSqliteDbContext();
+
         using var _ = context;
+
         using var __ = connection;
+
         var tokenServiceMock = new Mock<clsTokenService>(Mock.Of<Microsoft.Extensions.Configuration.IConfiguration>());
+
         var auditLogServiceMock = new Mock<clsAuditLogService>(context, Mock.Of<ILogger<clsAuditLogService>>());
+
         var loggerMock = new Mock<ILogger<clsAuthService>>();
 
         var user = new User
@@ -188,6 +225,7 @@ public class clsAuthServiceTests
         };
 
         context.Users.Add(user);
+
         await context.SaveChangesAsync();
 
         var authService = new clsAuthService(context, tokenServiceMock.Object, auditLogServiceMock.Object, loggerMock.Object);
@@ -197,6 +235,7 @@ public class clsAuthServiceTests
 
         // Assert
         result.Should().NotBeNull();
+
         result.Result.Should().Be(enOperationResult.AccountInactive);
     }
 
@@ -205,10 +244,15 @@ public class clsAuthServiceTests
     {
         // Arrange
         var (context, connection) = GetSqliteDbContext();
+
         using var _ = context;
+
         using var __ = connection;
+
         var tokenServiceMock = new Mock<clsTokenService>(Mock.Of<Microsoft.Extensions.Configuration.IConfiguration>());
+
         var auditLogServiceMock = new Mock<clsAuditLogService>(context, Mock.Of<ILogger<clsAuditLogService>>());
+
         var loggerMock = new Mock<ILogger<clsAuthService>>();
 
         var user = new User
@@ -221,7 +265,9 @@ public class clsAuthServiceTests
         };
 
         string refreshTokenStr = "valid-refresh-token";
+
         byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(refreshTokenStr));
+
         string tokenHashHex = Convert.ToHexString(hashBytes);
 
         var refreshTokenEntity = new RefreshToken
@@ -235,16 +281,20 @@ public class clsAuthServiceTests
         };
 
         context.Users.Add(user);
+
         context.RefreshTokens.Add(refreshTokenEntity);
+
         await context.SaveChangesAsync();
 
         tokenServiceMock.Setup(s => s.HashRefreshToken(refreshTokenStr)).Returns(hashBytes);
+
         tokenServiceMock.Setup(s => s.GenerateAccessToken(user)).Returns("new-access-token");
+
         tokenServiceMock.Setup(s => s.GenerateRefreshToken()).Returns("new-refresh-token");
+
         tokenServiceMock.Setup(s => s.HashRefreshToken("new-refresh-token")).Returns(new byte[32]);
 
-        auditLogServiceMock.Setup(s => s.AddAsync("RefreshToken", 1, true, "127.0.0.1"))
-            .ReturnsAsync(enOperationResult.Success);
+        auditLogServiceMock.Setup(s => s.AddAsync("RefreshToken", 1, true, "127.0.0.1")).ReturnsAsync(enOperationResult.Success);
 
         var authService = new clsAuthService(context, tokenServiceMock.Object, auditLogServiceMock.Object, loggerMock.Object);
 
@@ -253,8 +303,11 @@ public class clsAuthServiceTests
 
         // Assert
         result.Should().NotBeNull();
+
         result.Result.Should().Be(enOperationResult.Success);
+
         result.AccessToken.Should().Be("new-access-token");
+
         result.RefreshToken.Should().Be("new-refresh-token");
     }
 
@@ -263,10 +316,15 @@ public class clsAuthServiceTests
     {
         // Arrange
         var (context, connection) = GetSqliteDbContext();
+
         using var _ = context;
+
         using var __ = connection;
+
         var tokenServiceMock = new Mock<clsTokenService>(Mock.Of<Microsoft.Extensions.Configuration.IConfiguration>());
+
         var auditLogServiceMock = new Mock<clsAuditLogService>(context, Mock.Of<ILogger<clsAuditLogService>>());
+
         var loggerMock = new Mock<ILogger<clsAuthService>>();
 
         tokenServiceMock.Setup(s => s.HashRefreshToken(It.IsAny<string>())).Returns(new byte[32]);
@@ -278,6 +336,7 @@ public class clsAuthServiceTests
 
         // Assert
         result.Should().NotBeNull();
+
         result.Result.Should().Be(enOperationResult.InvalidCredentials);
     }
 
@@ -286,10 +345,15 @@ public class clsAuthServiceTests
     {
         // Arrange
         var (context, connection) = GetSqliteDbContext();
+
         using var _ = context;
+
         using var __ = connection;
+
         var tokenServiceMock = new Mock<clsTokenService>(Mock.Of<Microsoft.Extensions.Configuration.IConfiguration>());
+
         var auditLogServiceMock = new Mock<clsAuditLogService>(context, Mock.Of<ILogger<clsAuditLogService>>());
+
         var loggerMock = new Mock<ILogger<clsAuthService>>();
 
         var user = new User
@@ -302,7 +366,9 @@ public class clsAuthServiceTests
         };
 
         string refreshTokenStr = "valid-refresh-token";
+
         byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(refreshTokenStr));
+
         string tokenHashHex = Convert.ToHexString(hashBytes);
 
         var refreshTokenEntity = new RefreshToken
@@ -316,7 +382,9 @@ public class clsAuthServiceTests
         };
 
         context.Users.Add(user);
+
         context.RefreshTokens.Add(refreshTokenEntity);
+
         await context.SaveChangesAsync();
 
         tokenServiceMock.Setup(s => s.HashRefreshToken(refreshTokenStr)).Returns(hashBytes);
@@ -328,6 +396,7 @@ public class clsAuthServiceTests
 
         // Assert
         result.Should().NotBeNull();
+
         result.Result.Should().Be(enOperationResult.AccountInactive);
     }
 
