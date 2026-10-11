@@ -1,0 +1,14 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/.idea/
+**/*.user
+**/*.log
+**/logs/
+**/.git/
+**/.gitignore
+**/.dockerignore
+**/.clineignore
+**/README.md
+**/Atlantis-Portfolio-Backend-Tests/

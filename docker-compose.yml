@@ -1,0 +1,40 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: atlantis-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - atlantis-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: atlantis-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - AtlantisPortfolio__Jwt__Key=${JWT_KEY}
+      - AtlantisPortfolio__Jwt__Issuer=${JWT_ISSUER}
+      - AtlantisPortfolio__Jwt__Audience=${JWT_AUDIENCE}
+      - AtlantisPortfolio__ConnectionStrings__DefaultConnection=${CONNECTION_STRING}
+    ports:
+      - "5000:8080"
+    depends_on:
+      - sqlserver
+    networks:
+      - atlantis-network
+
+volumes:
+  sqlserver-data:
+
+networks:
+  atlantis-network:
+    driver: bridge

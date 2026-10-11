@@ -13,3 +13,4 @@ secrets.json
 
 # Rider
 .idea/
+.env
