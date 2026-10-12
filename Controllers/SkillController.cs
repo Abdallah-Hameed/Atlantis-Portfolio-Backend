@@ -16,7 +16,7 @@ public class SkillController : ControllerBase
         _skillService = skillService;
     }
 
-    [Authorize]
+    [AllowAnonymous]
     [HttpGet("Get/All")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllSkills()

@@ -19,6 +19,7 @@ public class ActionController : ControllerBase
         _actionService = actionService;
     }
 
+    [Authorize]
     [HttpGet("Get/All")]
     [ProducesResponseType(typeof(List<Atlantis_Portfolio_Backend_DAL.Entities.Action>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -38,7 +39,7 @@ public class ActionController : ControllerBase
                 detail: "An error occurred while retrieving Actions.");
         }
     }
-
+    [Authorize]
     [HttpGet("Get/{actionId:int}")]
     [ProducesResponseType(typeof(Atlantis_Portfolio_Backend_DAL.Entities.Action), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -67,7 +68,7 @@ public class ActionController : ControllerBase
                 detail: "An error occurred while retrieving the Action.");
         }
     }
-
+    [Authorize]
     [HttpPost("Add")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -103,7 +104,7 @@ public class ActionController : ControllerBase
                     detail: "An error occurred while adding the Action.");
         }
     }
-
+    [Authorize]
     [HttpPut("Update/{actionId:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -149,6 +150,7 @@ public class ActionController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("Delete/{actionId:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]

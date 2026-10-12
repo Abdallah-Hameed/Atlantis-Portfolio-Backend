@@ -45,36 +45,6 @@ public class PortfolioProfileController : ControllerBase
         return Ok(responseDto);
     }
 
-    [HttpGet("Get/{profileId:int}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetProfileById(int profileId)
-    {
-        var profile = await _profileService.GetProfileByIdAsync(profileId);
-
-        if (profile == null)
-            return Problem(statusCode: StatusCodes.Status404NotFound, title: "Portfolio profile not found", detail: $"Portfolio profile with ID {profileId} not found.");
-
-        var responseDto = new clsPortfolioProfileDto
-        {
-            PortfolioProfileId = profile.PortfolioProfileId,
-
-            FullName = profile.FullName,
-
-            ProfessionalTitle = profile.ProfessionalTitle,
-
-            Bio = profile.Bio,
-
-            ProfileImageUrl = profile.ProfileImageUrl,
-
-            Email = profile.Email,
-
-            Location = profile.Location
-        };
-
-        return Ok(responseDto);
-    }
-
     [HttpPost("Add")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]

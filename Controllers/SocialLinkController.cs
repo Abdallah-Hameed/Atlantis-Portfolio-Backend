@@ -17,6 +17,7 @@ public class SocialLinkController : ControllerBase
         _socialLinkService = socialLinkService;
     }
 
+    [AllowAnonymous]
     [HttpGet("Get/All")]
     [ProducesResponseType(typeof(List<SocialLink>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllSocialLinks()
@@ -26,6 +27,7 @@ public class SocialLinkController : ControllerBase
         return Ok(socialLinks);
     }
 
+    [Authorize]
     [HttpGet("Get/{socialLinkId:int}")]
     [ProducesResponseType(typeof(SocialLink), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
