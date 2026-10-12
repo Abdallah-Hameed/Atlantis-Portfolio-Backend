@@ -33,6 +33,19 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+// Sort helper — sorts by displayOrder ASC, then id DESC (newest first)
+function sortByDisplayOrder(items, idKeys) {
+  return items.sort((a, b) => {
+    const aOrder = Number(a.displayOrder ?? a.DisplayOrder ?? 0);
+    const bOrder = Number(b.displayOrder ?? b.DisplayOrder ?? 0);
+    if (aOrder !== bOrder) return aOrder - bOrder;
+
+    const aId = Number(idKeys.map(k => a[k]).find(v => v != null) ?? 0);
+    const bId = Number(idKeys.map(k => b[k]).find(v => v != null) ?? 0);
+    return bId - aId;
+  });
+}
+
 // Fetch helper
 async function fetchData(endpoint, label) {
   const res = await fetch(endpoint);
@@ -436,7 +449,9 @@ async function loadPortfolioData() {
   }
 
   if (projectsRes.status === 'fulfilled') {
-    state.projects = Array.isArray(projectsRes.value) ? projectsRes.value : [];
+    let projects = Array.isArray(projectsRes.value) ? projectsRes.value : [];
+    projects = sortByDisplayOrder(projects, ['projectId', 'id', 'ProjectId']);
+    state.projects = projects;
     renderProjects(state.projects);
   } else {
     failed.push(`Projects: ${projectsRes.reason?.message || 'Failed'}`);
@@ -444,7 +459,9 @@ async function loadPortfolioData() {
   }
 
   if (skillsRes.status === 'fulfilled') {
-    state.skills = Array.isArray(skillsRes.value) ? skillsRes.value : [];
+    let skills = Array.isArray(skillsRes.value) ? skillsRes.value : [];
+    skills = sortByDisplayOrder(skills, ['skillId', 'id', 'SkillId']);
+    state.skills = skills;
     renderSkills(state.skills);
   } else {
     failed.push(`Skills: ${skillsRes.reason?.message || 'Failed'}`);
@@ -452,7 +469,9 @@ async function loadPortfolioData() {
   }
 
   if (socialsRes.status === 'fulfilled') {
-    state.socialLinks = Array.isArray(socialsRes.value) ? socialsRes.value : [];
+    let links = Array.isArray(socialsRes.value) ? socialsRes.value : [];
+    links = sortByDisplayOrder(links, ['socialLinkId', 'id', 'SocialLinkId']);
+    state.socialLinks = links;
     renderSocialLinks(state.socialLinks);
   } else {
     failed.push(`Social Links: ${socialsRes.reason?.message || 'Failed'}`);
