@@ -1,9 +1,10 @@
 using Atlantis_Portfolio_Backend.Middleware;
-
 using Atlantis_Portfolio_Backend_BLL;
 using Atlantis_Portfolio_Backend_BLL.Services;
 using Atlantis_Portfolio_Backend_DAL.Context;
+using Atlantis_Portfolio_Backend_DAL.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -18,15 +19,30 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
     {
-        policy.WithOrigins("https://localhost:3000")
+        policy.WithOrigins(
+                "https://localhost:3000",
+                "https://abdallah-hameed-portfolio.runasp.net"
+              )
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration["AtlantisPortfolio:ConnectionStrings:DefaultConnection"]));
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        options.UseSqlServer(
+            builder.Configuration["AtlantisPortfolio:ConnectionStrings:DefaultConnection"]);
+    }
+    else
+    {
+        var dataFolder = Path.Combine(builder.Environment.ContentRootPath, "App_Data");
+        Directory.CreateDirectory(dataFolder);
+        var sqlitePath = Path.Combine(dataFolder, "atlantis.db");
+        options.UseSqlite($"Data Source={sqlitePath}");
+    }
+});
 
 builder.Services.AddScoped<clsUserService>();
 builder.Services.AddScoped<clsTokenService>();
@@ -41,7 +57,7 @@ builder.Services.AddScoped<clsCourseService>();
 builder.Services.AddScoped<clsActionService>();
 builder.Services.AddScoped<clsAuditLogService>();
 
-// Atlantis Portfolio JWT Configuration
+
 var jwtKey = builder.Configuration["AtlantisPortfolio:Jwt:Key"];
 var jwtIssuer = builder.Configuration["AtlantisPortfolio:Jwt:Issuer"];
 var jwtAudience = builder.Configuration["AtlantisPortfolio:Jwt:Audience"];
@@ -116,6 +132,40 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    try
+    {
+        db.Database.EnsureCreated();
+        Console.WriteLine("[DB INIT] Database initialized successfully.");
+
+        if (!db.Users.Any(u => u.Email == "admin1@gmail.com"))
+        {
+            var admin = new User
+            {
+                Email = "admin1@gmail.com",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123456"),
+                IsActive = true,
+                FailedLoginAttempts = 0,
+                CreatedAt = DateTime.UtcNow
+            };
+            db.Users.Add(admin);
+            db.SaveChanges();
+            Console.WriteLine("[DB SEED] Admin user created: admin1@gmail.com");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"[DB INIT FAILED] {ex.Message}");
+    }
+}
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -127,7 +177,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

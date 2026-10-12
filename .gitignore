@@ -14,3 +14,11 @@ secrets.json
 # Rider
 .idea/
 .env
+
+appsettings.Production.json
+*.db
+*.db-shm
+*.db-wal
+App_Data/
+*.pubxml
+*.pubxml.user

@@ -9,9 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
     <PackageReference Include="FluentAssertions" Version="8.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
       <PrivateAssets>all</PrivateAssets>
@@ -35,5 +37,10 @@
   <ItemGroup>
     <ProjectReference Include="Atlantis Portfolio-Backend-BLL\Atlantis Portfolio-Backend-BLL.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+  <Content Update="App_Data\**" CopyToPublishDirectory="Never" />
+  <None Update="App_Data\**" CopyToPublishDirectory="Never" />
+</ItemGroup>
 
 </Project>
