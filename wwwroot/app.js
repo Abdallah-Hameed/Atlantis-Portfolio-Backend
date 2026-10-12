@@ -282,7 +282,7 @@ function renderProjects(projects) {
 
     const imgMarkup = img
       ? `<div class="relative h-48 w-full overflow-hidden bg-slate-950">
-           <img src="${escapeHtml(img)}" alt="${escapeHtml(title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.parentElement.style.display='none'">
+           <img src="${escapeHtml(img)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.parentElement.style.display='none'">
          </div>`
       : `<div class="h-32 w-full bg-gradient-to-br from-slate-900 to-slate-800/80 flex items-center justify-center text-teal-400/30 text-4xl">
            <i class="fa-solid fa-code"></i>

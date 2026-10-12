@@ -16,7 +16,6 @@ public class clsAddPortfolioProfileDto
     public string Bio { get; set; } = null!;
 
     [StringLength(500)]
-    [Url]
     public string? ProfileImageUrl { get; set; }
 
     [StringLength(255)]

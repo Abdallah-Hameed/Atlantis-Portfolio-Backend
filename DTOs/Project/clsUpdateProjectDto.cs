@@ -12,7 +12,6 @@ public class clsUpdateProjectDto
     public string Description { get; set; } = null!;
 
     [StringLength(500)]
-    [Url]
     public string? ImageUrl { get; set; }
 
     [StringLength(500)]
