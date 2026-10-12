@@ -1,18 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Atlantis_Portfolio_Backend.DTO;
+namespace Atlantis_Portfolio_Backend.DTOs.SocialLink;
 
 public class clsUpdateSocialLinkDto
 {
     [Required]
-    [StringLength(100, MinimumLength = 1)]
-    public string Platform { get; set; } = string.Empty;
+    [MaxLength(100)]
+    public string Platform { get; set; } = null!;
 
     [Required]
-    [StringLength(500, MinimumLength = 1)]
-    [Url]
-    public string Url { get; set; } = string.Empty;
-
-    [Range(1, short.MaxValue)]
-    public short DisplayOrder { get; set; }
+    [MaxLength(500)]
+    public string Url { get; set; } = null!;
 }

@@ -109,13 +109,16 @@ public class clsSkillService
         }
     }
 
-    public async Task<enOperationResult> UpdateSkillAsync(int skillId, string skillName, string skillCategory, byte skillLevel)
+    public async Task<enOperationResult> UpdateSkillAsync(int skillId, string skillName, string skillCategory, byte skillLevel, short? displayOrder = null)
     {
         if (skillId <= 0 || string.IsNullOrWhiteSpace(skillName) || string.IsNullOrWhiteSpace(skillCategory))
             return enOperationResult.InvalidData;
 
         if (skillLevel is < 1 or > 5)
             return enOperationResult.InvalidSkillLevel;
+
+        if (displayOrder.HasValue && displayOrder.Value < 1)
+            return enOperationResult.InvalidData;
 
         skillName = skillName.Trim();
         skillCategory = skillCategory.Trim();
@@ -131,7 +134,14 @@ public class clsSkillService
                 return enOperationResult.NotFound;
             }
 
-            if (skill.SkillName == skillName && skill.SkillCategory == skillCategory && skill.SkillLevel == skillLevel)
+            // Check if anything actually changed
+            bool noChanges =
+                skill.SkillName == skillName &&
+                skill.SkillCategory == skillCategory &&
+                skill.SkillLevel == skillLevel &&
+                (!displayOrder.HasValue || skill.DisplayOrder == displayOrder.Value);
+
+            if (noChanges)
             {
                 _logger.LogInformation("Skill update skipped because no changes were detected. SkillId: {SkillId}", skillId);
 
@@ -141,6 +151,11 @@ public class clsSkillService
             skill.SkillName = skillName;
             skill.SkillCategory = skillCategory;
             skill.SkillLevel = skillLevel;
+
+            if (displayOrder.HasValue)
+            {
+                skill.DisplayOrder = displayOrder.Value;
+            }
 
             var affectedRows = await _context.SaveChangesAsync();
 
@@ -160,6 +175,12 @@ public class clsSkillService
             _logger.LogWarning("Cannot update skill because a unique constraint was violated. SkillId: {SkillId}, SkillName: {SkillName}", skillId, skillName);
 
             return enOperationResult.AlreadyExist;
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && sqlEx.Number == 547)
+        {
+            _logger.LogWarning("Cannot update skill because of a foreign key violation. SkillId: {SkillId}", skillId);
+
+            return enOperationResult.InvalidData;
         }
         catch (Exception ex)
         {
@@ -222,6 +243,61 @@ public class clsSkillService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while deleting skill. SkillId: {SkillId}", skillId);
+
+            return enOperationResult.Failed;
+        }
+    }
+
+    public async Task<enOperationResult> ReorderSkillsAsync(List<(int SkillId, short DisplayOrder)> items)
+    {
+        if (items == null || items.Count == 0)
+            return enOperationResult.InvalidData;
+
+        if (items.Any(x => x.SkillId <= 0 || x.DisplayOrder < 1))
+            return enOperationResult.InvalidData;
+
+        try
+        {
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+
+            var ids = items.Select(x => x.SkillId).ToList();
+            var skills = await _context.Skills
+                .Where(s => ids.Contains(s.SkillId))
+                .ToListAsync();
+
+            if (skills.Count != ids.Count)
+                return enOperationResult.NotFound;
+
+            // Phase 1: Offset to safe temporary values
+            foreach (var skill in skills)
+            {
+                skill.DisplayOrder += 10000;
+            }
+            await _context.SaveChangesAsync();
+
+            // Phase 2: Set final values
+            var dict = items.ToDictionary(x => x.SkillId, x => x.DisplayOrder);
+            foreach (var skill in skills)
+            {
+                skill.DisplayOrder = dict[skill.SkillId];
+            }
+            await _context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+
+            _logger.LogInformation("Skills reordered successfully. Count: {Count}", items.Count);
+
+            return enOperationResult.Success;
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && (sqlEx.Number == 2601 || sqlEx.Number == 2627))
+        {
+            _logger.LogWarning("Skill reorder failed due to a unique constraint violation.");
+
+            return enOperationResult.AlreadyExist;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while reordering skills.");
 
             return enOperationResult.Failed;
         }

@@ -1,0 +1,453 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+  <style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    .drag-handle { touch-action: none; }
+    .sortable-ghost { opacity: 0.4; background-color: #0f172a !important; }
+    .sortable-drag { opacity: 0.9; }
+
+    /* Custom Scrollbar */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #334155 #0f172a;
+    }
+
+    *::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #0f172a;
+      border-radius: 4px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+      border: 1px solid #0f172a;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    *::-webkit-scrollbar-corner {
+      background: #0f172a;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 md:p-8 flex flex-col items-center">
+
+  <div id="status-box" class="hidden w-full max-w-5xl mb-4 p-3 rounded-lg text-sm font-medium"></div>
+
+  <!-- Login View -->
+  <div id="login-view" class="w-full max-w-md my-auto bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+    <div class="text-center mb-8">
+      <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center justify-center mx-auto mb-3 text-xl">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <h1 class="text-2xl font-bold text-white">Admin Sign In</h1>
+      <p class="text-slate-400 text-sm mt-1">Enter your credentials to continue</p>
+    </div>
+
+    <form id="login-form" class="space-y-5">
+      <div>
+        <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Email Address</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none">
+            <i class="fa-regular fa-envelope"></i>
+          </span>
+          <input type="email" id="email" required autocomplete="email" class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors" placeholder="admin@example.com">
+        </div>
+      </div>
+
+      <div>
+        <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Password</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none">
+            <i class="fa-solid fa-key"></i>
+          </span>
+          <input type="password" id="password" required autocomplete="current-password" class="w-full pl-10 pr-11 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors" placeholder="••••••••">
+          <button type="button" id="toggle-password" aria-label="Toggle password visibility" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-teal-400 transition-colors cursor-pointer">
+            <i class="fa-solid fa-eye" id="toggle-password-icon"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" id="submit-btn" class="w-full py-2.5 px-4 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer">
+        <span>Sign In</span>
+        <i class="fa-solid fa-arrow-right text-xs"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Dashboard View -->
+  <div id="dashboard-view" class="hidden w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6 md:p-8">
+    <div class="flex items-center justify-between pb-6 border-b border-slate-800">
+      <div>
+        <h1 class="text-2xl font-bold text-white">Admin Dashboard</h1>
+        <p class="text-slate-400 text-sm mt-0.5">Manage portfolio content and details</p>
+      </div>
+      <button id="logout-btn" class="py-2 px-4 rounded-lg bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 font-semibold text-sm transition-colors flex items-center gap-2 cursor-pointer">
+        <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+        <span>Logout</span>
+      </button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex flex-wrap gap-2 border-b border-slate-800 pt-6 pb-2 text-sm font-medium">
+      <button id="tab-projects" class="px-4 py-2 rounded-lg bg-teal-500/10 text-teal-400 border border-teal-500/30 flex items-center gap-2">
+        <i class="fa-solid fa-folder-open text-xs"></i> Projects
+      </button>
+      <button id="tab-skills" class="px-4 py-2 rounded-lg text-slate-400 hover:text-slate-300 transition-colors flex items-center gap-2">
+        <i class="fa-solid fa-code text-xs"></i> Skills
+      </button>
+      <button id="tab-profile" class="px-4 py-2 rounded-lg text-slate-400 hover:text-slate-300 transition-colors flex items-center gap-2">
+        <i class="fa-solid fa-user text-xs"></i> Profile
+      </button>
+      <button id="tab-social-links" class="px-4 py-2 rounded-lg text-slate-400 hover:text-slate-300 transition-colors flex items-center gap-2">
+        <i class="fa-solid fa-share-nodes text-xs"></i> Social Links
+      </button>
+    </div>
+
+    <!-- Projects Panel -->
+    <div id="panel-projects" class="pt-6">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-semibold text-white">Projects List</h2>
+          <p class="text-xs text-slate-400">Drag <i class="fa-solid fa-grip-vertical text-slate-500"></i> to reorder projects</p>
+        </div>
+        <button id="add-project-btn" class="py-2 px-4 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Add Project</span>
+        </button>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/50">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-900/90 text-slate-400 uppercase text-xs border-b border-slate-800 font-semibold tracking-wider">
+            <tr>
+              <th scope="col" class="py-3.5 px-2 w-10"></th>
+              <th scope="col" class="py-3.5 px-4">Title</th>
+              <th scope="col" class="py-3.5 px-4">Description</th>
+              <th scope="col" class="py-3.5 px-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="projects-table-body" class="divide-y divide-slate-800 text-slate-300">
+            <tr>
+              <td colspan="4" class="py-6 px-4 text-center text-slate-500">Loading projects...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Skills Panel -->
+    <div id="panel-skills" class="hidden pt-6">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-semibold text-white">Skills List</h2>
+          <p class="text-xs text-slate-400">Drag <i class="fa-solid fa-grip-vertical text-slate-500"></i> to reorder skills</p>
+        </div>
+        <button id="add-skill-btn" class="py-2 px-4 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Add Skill</span>
+        </button>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/50">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-900/90 text-slate-400 uppercase text-xs border-b border-slate-800 font-semibold tracking-wider">
+            <tr>
+              <th scope="col" class="py-3.5 px-2 w-10"></th>
+              <th scope="col" class="py-3.5 px-4">Name</th>
+              <th scope="col" class="py-3.5 px-4">Category</th>
+              <th scope="col" class="py-3.5 px-4">Level</th>
+              <th scope="col" class="py-3.5 px-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="skills-table-body" class="divide-y divide-slate-800 text-slate-300">
+            <tr>
+              <td colspan="5" class="py-6 px-4 text-center text-slate-500">Loading skills...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Social Links Panel -->
+    <div id="panel-social-links" class="hidden pt-6">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-semibold text-white">Social Links</h2>
+          <p class="text-xs text-slate-400">Drag <i class="fa-solid fa-grip-vertical text-slate-500"></i> to reorder links</p>
+        </div>
+        <button id="add-social-link-btn" class="py-2 px-4 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Add Link</span>
+        </button>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/50">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-900/90 text-slate-400 uppercase text-xs border-b border-slate-800 font-semibold tracking-wider">
+            <tr>
+              <th scope="col" class="py-3.5 px-2 w-10"></th>
+              <th scope="col" class="py-3.5 px-4">Platform</th>
+              <th scope="col" class="py-3.5 px-4">URL</th>
+              <th scope="col" class="py-3.5 px-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="social-links-table-body" class="divide-y divide-slate-800 text-slate-300">
+            <tr>
+              <td colspan="4" class="py-6 px-4 text-center text-slate-500">Loading social links...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Profile Panel -->
+    <div id="panel-profile" class="hidden pt-6">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-semibold text-white">Profile</h2>
+          <p class="text-xs text-slate-400">View and update your portfolio profile</p>
+        </div>
+        <button id="edit-profile-btn" class="py-2 px-4 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-pen-to-square text-xs"></i>
+          <span>Edit Profile</span>
+        </button>
+      </div>
+
+      <div id="profile-card" class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Full Name</div>
+            <div id="profile-view-fullname" class="text-white font-medium text-base">-</div>
+          </div>
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Professional Title</div>
+            <div id="profile-view-title" class="text-white font-medium text-base">-</div>
+          </div>
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Email</div>
+            <div id="profile-view-email" class="text-white font-medium text-base">-</div>
+          </div>
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Location</div>
+            <div id="profile-view-location" class="text-white font-medium text-base">-</div>
+          </div>
+          <div class="md:col-span-2">
+            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Profile Image URL</div>
+            <div id="profile-view-image" class="text-teal-400 font-mono text-sm break-all">-</div>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-slate-800">
+          <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Bio</div>
+          <div id="profile-view-bio" class="text-slate-300 text-sm whitespace-pre-line leading-relaxed">-</div>
+        </div>
+      </div>
+
+      <div id="profile-empty-state" class="hidden p-8 rounded-xl border border-slate-800 bg-slate-950/50 text-center text-slate-400">
+        No profile found. Please contact the administrator.
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div id="project-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+    <div class="w-full max-w-lg max-h-[90vh] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl relative flex flex-col">
+      <div class="flex items-center justify-between p-6 pb-4 border-b border-slate-800 flex-shrink-0">
+        <h3 id="modal-title" class="text-lg font-bold text-white">Add Project</h3>
+        <button type="button" id="modal-close-btn" class="text-slate-400 hover:text-slate-200 transition-colors p-1 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="project-form" class="p-6 pt-4 space-y-4 overflow-y-auto pr-3 flex-1">
+        <div id="modal-status" class="hidden mb-3 p-3 rounded-lg text-sm font-medium"></div>
+        <input type="hidden" id="project-id">
+
+        <div>
+          <label for="project-title" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Title *</label>
+          <input type="text" id="project-title" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="e.g. Portfolio Website">
+        </div>
+
+        <div>
+          <label for="project-description" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Description *</label>
+          <textarea id="project-description" rows="3" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors resize-none" placeholder="Brief project summary..."></textarea>
+        </div>
+
+        <div>
+          <label for="project-github-url" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">GitHub URL</label>
+          <input type="url" id="project-github-url" class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="https://github.com/...">
+        </div>
+
+        <div>
+          <label for="project-live-url" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Live URL</label>
+          <input type="url" id="project-live-url" class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="https://...">
+        </div>
+
+        <div>
+          <label for="project-image-url" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Image URL</label>
+          <input type="url" id="project-image-url" class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="https://...">
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+          <button type="button" id="modal-cancel-btn" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-sm transition-colors cursor-pointer">Cancel</button>
+          <button type="submit" id="modal-save-btn" class="px-4 py-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-colors cursor-pointer">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Skill Modal -->
+  <div id="skill-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+    <div class="w-full max-w-lg max-h-[90vh] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl relative flex flex-col">
+      <div class="flex items-center justify-between p-6 pb-4 border-b border-slate-800 flex-shrink-0">
+        <h3 id="skill-modal-title" class="text-lg font-bold text-white">Add Skill</h3>
+        <button type="button" id="skill-modal-close-btn" class="text-slate-400 hover:text-slate-200 transition-colors p-1 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="skill-form" class="p-6 pt-4 space-y-4 overflow-y-auto pr-3 flex-1">
+        <div id="skill-modal-status" class="hidden mb-3 p-3 rounded-lg text-sm font-medium"></div>
+        <input type="hidden" id="skill-id">
+
+        <div>
+          <label for="skill-name" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Skill Name *</label>
+          <input type="text" id="skill-name" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="e.g. C# / .NET">
+        </div>
+
+        <div>
+          <label for="skill-category" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Category *</label>
+          <input type="text" id="skill-category" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="e.g. Backend, Frontend, Database">
+        </div>
+
+        <div>
+          <label for="skill-level" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Skill Level (1-5) *</label>
+          <select id="skill-level" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors">
+            <option value="1">1 — Beginner</option>
+            <option value="2">2 — Basic</option>
+            <option value="3" selected>3 — Intermediate</option>
+            <option value="4">4 — Advanced</option>
+            <option value="5">5 — Expert</option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+          <button type="button" id="skill-modal-cancel-btn" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-sm transition-colors cursor-pointer">Cancel</button>
+          <button type="submit" id="skill-modal-save-btn" class="px-4 py-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-colors cursor-pointer">Save Skill</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Social Link Modal -->
+  <div id="social-link-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+    <div class="w-full max-w-lg max-h-[90vh] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl relative flex flex-col">
+      <div class="flex items-center justify-between p-6 pb-4 border-b border-slate-800 flex-shrink-0">
+        <h3 id="social-link-modal-title" class="text-lg font-bold text-white">Add Social Link</h3>
+        <button type="button" id="social-link-modal-close-btn" class="text-slate-400 hover:text-slate-200 transition-colors p-1 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="social-link-form" class="p-6 pt-4 space-y-4 overflow-y-auto pr-3 flex-1">
+        <div id="social-link-modal-status" class="hidden mb-3 p-3 rounded-lg text-sm font-medium"></div>
+        <input type="hidden" id="social-link-id">
+
+        <div>
+          <label for="social-link-platform" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Platform *</label>
+          <input type="text" id="social-link-platform" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="e.g. GitHub, LinkedIn, Twitter">
+        </div>
+
+        <div>
+          <label for="social-link-url" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">URL *</label>
+          <input type="url" id="social-link-url" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="https://...">
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+          <button type="button" id="social-link-modal-cancel-btn" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-sm transition-colors cursor-pointer">Cancel</button>
+          <button type="submit" id="social-link-modal-save-btn" class="px-4 py-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-colors cursor-pointer">Save Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+    <div class="w-full max-w-lg max-h-[90vh] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl relative flex flex-col">
+      <div class="flex items-center justify-between p-6 pb-4 border-b border-slate-800 flex-shrink-0">
+        <h3 id="profile-modal-title" class="text-lg font-bold text-white">Edit Profile</h3>
+        <button type="button" id="profile-modal-close-btn" class="text-slate-400 hover:text-slate-200 transition-colors p-1 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="profile-form" class="p-6 pt-4 space-y-4 overflow-y-auto pr-3 flex-1">
+        <div id="profile-modal-status" class="hidden mb-3 p-3 rounded-lg text-sm font-medium"></div>
+        <input type="hidden" id="profile-id">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="profile-fullname" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Full Name *</label>
+            <input type="text" id="profile-fullname" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="e.g. John Doe">
+          </div>
+          <div>
+            <label for="profile-title" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Professional Title *</label>
+            <input type="text" id="profile-title" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="e.g. Full-Stack Developer">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="profile-email" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Email *</label>
+            <input type="email" id="profile-email" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="e.g. john@example.com">
+          </div>
+          <div>
+            <label for="profile-location" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Location *</label>
+            <input type="text" id="profile-location" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="e.g. City, Country">
+          </div>
+        </div>
+
+        <div>
+          <label for="profile-image-url" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Profile Image URL</label>
+          <input type="url" id="profile-image-url" class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors" placeholder="https://...">
+        </div>
+
+        <div>
+          <label for="profile-bio" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Bio *</label>
+          <textarea id="profile-bio" rows="4" required class="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm transition-colors resize-none" placeholder="Write a short summary about yourself..."></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+          <button type="button" id="profile-modal-cancel-btn" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-sm transition-colors cursor-pointer">Cancel</button>
+          <button type="submit" id="profile-modal-save-btn" class="px-4 py-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm transition-colors cursor-pointer">Save Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,5 +1,6 @@
-﻿using Atlantis_Portfolio_Backend_BLL;
-using Atlantis_Portfolio_Backend.DTO;
+﻿using Atlantis_Portfolio_Backend.DTO;
+using Atlantis_Portfolio_Backend.DTOs.Skill;
+using Atlantis_Portfolio_Backend_BLL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -70,23 +71,44 @@ public class SkillController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateSkill(int skillId, [FromBody] clsUpdateSkillDto dto)
+    public async Task<IActionResult> Update(int skillId, [FromBody] clsUpdateSkillDto dto)
     {
-        var result = await _skillService.UpdateSkillAsync(skillId, dto.SkillName, dto.SkillCategory, dto.SkillLevel);
+        var result = await _skillService.UpdateSkillAsync(
+            skillId,
+            dto.SkillName,
+            dto.SkillCategory,
+            dto.SkillLevel,
+            dto.DisplayOrder);
 
         return result switch
         {
-            enOperationResult.Success => Ok("Skill updated successfully."),
+            enOperationResult.Success =>
+                Ok("Skill updated successfully."),
 
-            enOperationResult.InvalidData => Problem(statusCode: StatusCodes.Status400BadRequest, title: "Invalid skill data", detail: "The provided skill data is invalid."),
+            enOperationResult.InvalidData =>
+                Problem(statusCode: StatusCodes.Status400BadRequest,
+                    title: "Invalid skill data",
+                    detail: "The provided skill data is invalid."),
 
-            enOperationResult.InvalidSkillLevel => Problem(statusCode: StatusCodes.Status400BadRequest, title: "Invalid skill level", detail: "Skill level must be between 1 and 5."),
+            enOperationResult.InvalidSkillLevel =>
+                Problem(statusCode: StatusCodes.Status400BadRequest,
+                    title: "Invalid skill level",
+                    detail: "Skill level must be between 1 and 5."),
 
-            enOperationResult.NotFound => Problem(statusCode: StatusCodes.Status404NotFound, title: "Skill not found", detail: $"Skill with ID {skillId} not found."),
+            enOperationResult.NotFound =>
+                Problem(statusCode: StatusCodes.Status404NotFound,
+                    title: "Skill not found",
+                    detail: $"Skill with ID {skillId} not found."),
 
-            enOperationResult.AlreadyExist => Problem(statusCode: StatusCodes.Status409Conflict, title: "Skill already exists", detail: "A skill with the same unique values already exists."),
+            enOperationResult.AlreadyExist =>
+                Problem(statusCode: StatusCodes.Status409Conflict,
+                    title: "Skill already exists",
+                    detail: "A skill with the same name already exists."),
 
-            _ => Problem(statusCode: StatusCodes.Status500InternalServerError, title: "Internal server error", detail: "Failed to update skill.")
+            _ =>
+                Problem(statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Internal server error",
+                    detail: "Failed to update skill.")
         };
     }
 
@@ -113,6 +135,52 @@ public class SkillController : ControllerBase
             enOperationResult.Conflict => Problem(statusCode: StatusCodes.Status409Conflict, title: "Skill deletion conflict", detail: "The skill could not be deleted because of a conflict with related records."),
 
             _ => Problem(statusCode: StatusCodes.Status500InternalServerError, title: "Internal server error", detail: "Failed to delete skill.")
+        };
+    }
+
+    [Authorize]
+    [HttpPost("Reorder")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Reorder([FromBody] List<clsReorderSkillItemDto> items)
+    {
+        if (items == null || items.Count == 0)
+            return Problem(statusCode: StatusCodes.Status400BadRequest,
+                title: "Invalid data",
+                detail: "The reorder list is empty.");
+
+        var payload = items
+            .Select(x => (x.SkillId, x.DisplayOrder))
+            .ToList();
+
+        var result = await _skillService.ReorderSkillsAsync(payload);
+
+        return result switch
+        {
+            enOperationResult.Success =>
+                Ok("Skills reordered successfully."),
+
+            enOperationResult.InvalidData =>
+                Problem(statusCode: StatusCodes.Status400BadRequest,
+                    title: "Invalid reorder data",
+                    detail: "One or more items have invalid values."),
+
+            enOperationResult.NotFound =>
+                Problem(statusCode: StatusCodes.Status404NotFound,
+                    title: "Skill not found",
+                    detail: "One or more skill IDs do not exist."),
+
+            enOperationResult.AlreadyExist =>
+                Problem(statusCode: StatusCodes.Status409Conflict,
+                    title: "Order conflict",
+                    detail: "The new order conflicts with an existing constraint."),
+
+            _ =>
+                Problem(statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Internal server error",
+                    detail: "Failed to reorder skills.")
         };
     }
 }

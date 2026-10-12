@@ -14,4 +14,7 @@ public class clsUpdateSkillDto
 
     [Range(1, 5)]
     public byte SkillLevel { get; set; }
+
+    [Range(1,short.MaxValue)]
+    public short? DisplayOrder { get; set; }
 }

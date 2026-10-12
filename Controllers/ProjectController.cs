@@ -1,5 +1,6 @@
-﻿using Atlantis_Portfolio_Backend_BLL;
-using Atlantis_Portfolio_Backend.DTO;
+﻿using Atlantis_Portfolio_Backend.DTO;
+using Atlantis_Portfolio_Backend.DTOs.Project;
+using Atlantis_Portfolio_Backend_BLL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -98,6 +99,52 @@ public class ProjectController : ControllerBase
             enOperationResult.NotFound => Problem(statusCode: StatusCodes.Status404NotFound, title: "Project not found", detail: $"Project with ID {projectId} not found."),
             enOperationResult.Conflict => Problem(statusCode: StatusCodes.Status409Conflict, title: "Project deletion conflict", detail: "The project could not be deleted because of a conflict with related records."),
             _ => Problem(statusCode: StatusCodes.Status500InternalServerError, title: "Internal server error", detail: "Failed to delete project.")
+        };
+    }
+
+    [Authorize]
+    [HttpPost("Reorder")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Reorder([FromBody] List<clsReorderProjectItemDto> items)
+    {
+        if (items == null || items.Count == 0)
+            return Problem(statusCode: StatusCodes.Status400BadRequest,
+                title: "Invalid data",
+                detail: "The reorder list is empty.");
+
+        var payload = items
+            .Select(x => (x.ProjectId, x.DisplayOrder))
+            .ToList();
+
+        var result = await _projectService.ReorderProjectsAsync(payload);
+
+        return result switch
+        {
+            enOperationResult.Success =>
+                Ok("Projects reordered successfully."),
+
+            enOperationResult.InvalidData =>
+                Problem(statusCode: StatusCodes.Status400BadRequest,
+                    title: "Invalid reorder data",
+                    detail: "One or more items have invalid values."),
+
+            enOperationResult.NotFound =>
+                Problem(statusCode: StatusCodes.Status404NotFound,
+                    title: "Project not found",
+                    detail: "One or more project IDs do not exist."),
+
+            enOperationResult.AlreadyExist =>
+                Problem(statusCode: StatusCodes.Status409Conflict,
+                    title: "Order conflict",
+                    detail: "The new order conflicts with an existing constraint."),
+
+            _ =>
+                Problem(statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Internal server error",
+                    detail: "Failed to reorder projects.")
         };
     }
 }

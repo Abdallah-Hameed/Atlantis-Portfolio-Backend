@@ -217,4 +217,59 @@ public class clsProjectService
             return enOperationResult.Failed;
         }
     }
+
+    public async Task<enOperationResult> ReorderProjectsAsync(List<(int ProjectId, short DisplayOrder)> items)
+    {
+        if (items == null || items.Count == 0)
+            return enOperationResult.InvalidData;
+
+        if (items.Any(x => x.ProjectId <= 0 || x.DisplayOrder < 1))
+            return enOperationResult.InvalidData;
+
+        try
+        {
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+
+            var ids = items.Select(x => x.ProjectId).ToList();
+            var projects = await _context.Projects
+                .Where(p => ids.Contains(p.ProjectId))
+                .ToListAsync();
+
+            if (projects.Count != ids.Count)
+                return enOperationResult.NotFound;
+
+            // Phase 1: Offset to safe temporary values
+            foreach (var project in projects)
+            {
+                project.DisplayOrder += 10000;
+            }
+            await _context.SaveChangesAsync();
+
+            // Phase 2: Set final values
+            var dict = items.ToDictionary(x => x.ProjectId, x => x.DisplayOrder);
+            foreach (var project in projects)
+            {
+                project.DisplayOrder = dict[project.ProjectId];
+            }
+            await _context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+
+            _logger.LogInformation("Projects reordered successfully. Count: {Count}", items.Count);
+
+            return enOperationResult.Success;
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && (sqlEx.Number == 2601 || sqlEx.Number == 2627))
+        {
+            _logger.LogWarning("Project reorder failed due to a unique constraint violation.");
+
+            return enOperationResult.AlreadyExist;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while reordering projects.");
+
+            return enOperationResult.Failed;
+        }
+    }
 }
