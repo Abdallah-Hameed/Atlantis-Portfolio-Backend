@@ -22,6 +22,17 @@
     };
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    #hero-name, #hero-title, #hero-bio-short, #about-bio,
+    #about-location, #about-title, #contact-email, #footer-copy,
+    #projects-container h3, #projects-container p,
+    #skills-container h3, #skills-container .grid span,
+    #contact-socials span {
+      overflow-wrap: anywhere;
+    }
+    #status-box { width: 100%; overflow-wrap: anywhere; }
+    #status-box .flex > div { min-width: 0; }
+  </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-teal-500 selection:text-white">
 
@@ -29,9 +40,9 @@
   <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
-        <a href="#hero" class="text-xl font-bold tracking-tight text-white flex items-center gap-2 group">
-          <span class="w-8 h-8 rounded-lg bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 group-hover:scale-105 transition-transform font-mono text-sm">&lt;/&gt;</span>
-          <span id="nav-brand-name" class="group-hover:text-teal-400 transition-colors">Portfolio</span>
+        <a href="#hero" class="min-w-0 text-xl font-bold tracking-tight text-white flex items-center gap-2 group">
+          <span class="w-8 h-8 shrink-0 rounded-lg bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 group-hover:scale-105 transition-transform font-mono text-sm">&lt;/&gt;</span>
+          <span id="nav-brand-name" class="min-w-0 truncate group-hover:text-teal-400 transition-colors">Portfolio</span>
         </a>
 
         <!-- Desktop Navigation -->
@@ -44,7 +55,7 @@
         </nav>
 
         <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" type="button" aria-label="Toggle navigation menu" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 focus:outline-none">
+        <button id="mobile-menu-btn" type="button" aria-label="Toggle navigation menu" class="md:hidden shrink-0 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 focus:outline-none">
           <i class="fa-solid fa-bars text-xl" id="mobile-menu-icon"></i>
         </button>
       </div>
@@ -71,7 +82,7 @@
       <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute bottom-10 -right-20 w-80 h-80 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="max-w-4xl mx-auto text-center relative z-10">
+      <div class="w-full min-w-0 max-w-4xl mx-auto text-center relative z-10">
         <!-- Hero Loading Skeleton -->
         <div id="hero-loading" class="space-y-6 animate-pulse">
           <div class="w-32 h-32 mx-auto rounded-full bg-slate-800"></div>
@@ -82,7 +93,7 @@
 
         <!-- Hero Dynamic Content -->
         <div id="hero-content" class="hidden">
-          <div class="relative inline-block mb-6">
+          <div class="relative block w-max mx-auto mb-6">
             <img id="hero-avatar" src="" alt="Profile Photo" class="w-32 h-32 sm:w-36 sm:h-36 rounded-full object-cover border-4 border-slate-800 shadow-xl shadow-teal-500/5 mx-auto hidden">
             <div id="hero-avatar-fallback" class="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-slate-800 border-4 border-slate-800 flex items-center justify-center text-teal-400 text-4xl shadow-xl mx-auto">
               <i class="fa-solid fa-user"></i>
@@ -90,8 +101,8 @@
             <span class="absolute bottom-1 right-1 w-5 h-5 bg-emerald-500 border-2 border-slate-950 rounded-full"></span>
           </div>
 
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-300 text-xs sm:text-sm font-medium mb-4">
-            <span class="w-2 h-2 rounded-full bg-teal-400 animate-ping"></span>
+          <div class="flex w-fit max-w-full mx-auto items-center justify-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-300 text-xs sm:text-sm font-medium mb-4">
+            <span class="w-2 h-2 shrink-0 rounded-full bg-teal-400 animate-ping"></span>
             Available for new opportunities
           </div>
 
@@ -113,7 +124,7 @@
           </div>
 
           <!-- Hero Social Links Bar -->
-          <div id="hero-socials" class="flex items-center justify-center gap-3 mt-10"></div>
+          <div id="hero-socials" class="flex flex-wrap items-center justify-center gap-3 mt-10"></div>
         </div>
       </div>
     </section>
@@ -149,7 +160,7 @@
                 <div class="w-8 h-8 rounded-lg bg-teal-500/10 text-teal-400 flex items-center justify-center shrink-0">
                   <i class="fa-solid fa-location-dot"></i>
                 </div>
-                <div>
+                <div class="min-w-0">
                   <div class="text-slate-400 text-xs uppercase font-medium">Location</div>
                   <div id="about-location" class="text-white font-medium">Loading...</div>
                 </div>
@@ -159,7 +170,7 @@
                 <div class="w-8 h-8 rounded-lg bg-teal-500/10 text-teal-400 flex items-center justify-center shrink-0">
                   <i class="fa-regular fa-envelope"></i>
                 </div>
-                <div>
+                <div class="min-w-0">
                   <div class="text-slate-400 text-xs uppercase font-medium">Email</div>
                   <div id="about-email" class="text-white font-medium break-all">Loading...</div>
                 </div>
@@ -169,7 +180,7 @@
                 <div class="w-8 h-8 rounded-lg bg-teal-500/10 text-teal-400 flex items-center justify-center shrink-0">
                   <i class="fa-solid fa-briefcase"></i>
                 </div>
-                <div>
+                <div class="min-w-0">
                   <div class="text-slate-400 text-xs uppercase font-medium">Focus</div>
                   <div id="about-title" class="text-white font-medium">Loading...</div>
                 </div>
@@ -248,13 +259,13 @@
           </p>
         </div>
 
-        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-8 backdrop-blur shadow-xl space-y-8">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-8 backdrop-blur shadow-xl space-y-8">
           <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-slate-950 border border-slate-800/80">
-            <div class="flex items-center gap-3 text-left">
+            <div class="flex w-full min-w-0 items-center gap-3 text-left sm:w-auto">
               <div class="w-10 h-10 rounded-lg bg-teal-500/10 text-teal-400 flex items-center justify-center shrink-0 text-lg">
                 <i class="fa-solid fa-envelope"></i>
               </div>
-              <div>
+              <div class="min-w-0">
                 <div class="text-xs text-slate-400">Direct Email</div>
                 <div id="contact-email" class="text-white font-medium text-sm sm:text-base">Loading email...</div>
               </div>

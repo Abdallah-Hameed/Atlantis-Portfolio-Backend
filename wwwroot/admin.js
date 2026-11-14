@@ -388,9 +388,9 @@ function renderProjectsTable(projects) {
         <td class="py-3 px-2 w-10 text-center">
           <i class="fa-solid fa-grip-vertical text-slate-500 hover:text-teal-400 cursor-grab drag-handle transition-colors"></i>
         </td>
-        <td class="py-3 px-4 font-medium text-white max-w-[200px] truncate" title="${escapeHtml(title)}">${escapeHtml(title)}</td>
-        <td class="py-3 px-4 text-slate-400 max-w-[320px] truncate" title="${escapeHtml(description)}">${escapeHtml(truncatedDesc)}</td>
-        <td class="py-3 px-4 text-right space-x-2 whitespace-nowrap">
+        <td data-label="Title" class="py-3 px-4 font-medium text-white max-w-[200px] truncate" title="${escapeHtml(title)}">${escapeHtml(title)}</td>
+        <td data-label="Description" class="py-3 px-4 text-slate-400 max-w-[320px] truncate" title="${escapeHtml(description)}">${escapeHtml(truncatedDesc)}</td>
+        <td data-label="Actions" class="py-3 px-4 text-right space-x-2 whitespace-nowrap">
           <button type="button" onclick="editProject('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-slate-700 text-teal-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-pen-to-square mr-1"></i>Edit</button>
           <button type="button" onclick="deleteProject('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-rose-950/60 text-rose-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-trash mr-1"></i>Delete</button>
         </td>
@@ -689,12 +689,12 @@ function renderSkillsTable(skills) {
         <td class="py-3 px-2 w-10 text-center">
           <i class="fa-solid fa-grip-vertical text-slate-500 hover:text-teal-400 cursor-grab drag-handle transition-colors"></i>
         </td>
-        <td class="py-3 px-4 font-medium text-white max-w-[200px] truncate" title="${escapeHtml(name)}">${escapeHtml(name)}</td>
-        <td class="py-3 px-4 text-slate-400 max-w-[180px] truncate" title="${escapeHtml(category)}">
+        <td data-label="Name" class="py-3 px-4 font-medium text-white max-w-[200px] truncate" title="${escapeHtml(name)}">${escapeHtml(name)}</td>
+        <td data-label="Category" class="py-3 px-4 text-slate-400 max-w-[180px] truncate" title="${escapeHtml(category)}">
           <span class="inline-block py-0.5 px-2 rounded-md bg-slate-800 border border-slate-700 text-xs text-slate-300">${escapeHtml(category)}</span>
         </td>
-        <td class="py-3 px-4 text-teal-400 font-mono text-sm tracking-widest whitespace-nowrap" title="${level}/5">${filledDots}<span class="text-slate-600">${emptyDots}</span></td>
-        <td class="py-3 px-4 text-right space-x-2 whitespace-nowrap">
+        <td data-label="Level" class="py-3 px-4 text-teal-400 font-mono text-sm tracking-widest whitespace-nowrap" title="${level}/5">${filledDots}<span class="text-slate-600">${emptyDots}</span></td>
+        <td data-label="Actions" class="py-3 px-4 text-right space-x-2 whitespace-nowrap">
           <button type="button" onclick="editSkill('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-slate-700 text-teal-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-pen-to-square mr-1"></i>Edit</button>
           <button type="button" onclick="deleteSkill('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-rose-950/60 text-rose-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-trash mr-1"></i>Delete</button>
         </td>
@@ -912,16 +912,16 @@ function renderSocialLinksTable(links) {
         <td class="py-3 px-2 w-10 text-center">
           <i class="fa-solid fa-grip-vertical text-slate-500 hover:text-teal-400 cursor-grab drag-handle transition-colors"></i>
         </td>
-        <td class="py-3 px-4 font-medium text-white max-w-[200px] truncate" title="${escapeHtml(platform)}">
+        <td data-label="Platform" class="py-3 px-4 font-medium text-white max-w-[200px] truncate" title="${escapeHtml(platform)}">
           <span class="inline-block py-0.5 px-2 rounded-md bg-slate-800 border border-slate-700 text-xs text-slate-200">${escapeHtml(platform)}</span>
         </td>
-        <td class="py-3 px-4 text-slate-400 max-w-[300px] truncate" title="${escapeHtml(url)}">
+        <td data-label="URL" class="py-3 px-4 text-slate-400 max-w-[300px] truncate" title="${escapeHtml(url)}">
           <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:underline inline-flex items-center gap-1.5">
             <span>${escapeHtml(url)}</span>
             <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
           </a>
         </td>
-        <td class="py-3 px-4 text-right space-x-2 whitespace-nowrap">
+        <td data-label="Actions" class="py-3 px-4 text-right space-x-2 whitespace-nowrap">
           <button type="button" onclick="editSocialLink('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-slate-700 text-teal-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-pen-to-square mr-1"></i>Edit</button>
           <button type="button" onclick="deleteSocialLink('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-rose-950/60 text-rose-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-trash mr-1"></i>Delete</button>
         </td>
