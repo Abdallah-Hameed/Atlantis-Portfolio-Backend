@@ -60,6 +60,7 @@ function getSocialIcon(platform) {
   const p = (platform || '').toLowerCase();
   if (p.includes('github')) return 'fa-brands fa-github';
   if (p.includes('linkedin')) return 'fa-brands fa-linkedin-in';
+  if (p === 'whatsapp') return 'fa-brands fa-whatsapp';
   if (p.includes('twitter') || p.includes('x.com')) return 'fa-brands fa-x-twitter';
   if (p.includes('youtube')) return 'fa-brands fa-youtube';
   if (p.includes('facebook')) return 'fa-brands fa-facebook';
@@ -181,8 +182,6 @@ function renderProfile(profile) {
   if (!profile) return;
 
   const fullName = profile.fullName || profile.FullName || 'Developer';
-  const title = profile.professionalTitle || profile.ProfessionalTitle || 'Software Engineer';
-  const bio = profile.bio || profile.Bio || '';
   const email = profile.email || profile.Email || 'contact@example.com';
   const location = profile.location || profile.Location || 'Remote / Worldwide';
   const imageUrl = profile.profileImageUrl || profile.ProfileImageUrl;
@@ -193,14 +192,6 @@ function renderProfile(profile) {
 
   const heroNameEl = document.getElementById('hero-name');
   if (heroNameEl) heroNameEl.textContent = fullName;
-
-  const heroTitleEl = document.getElementById('hero-title');
-  if (heroTitleEl) heroTitleEl.textContent = title;
-
-  const heroBioEl = document.getElementById('hero-bio-short');
-  if (heroBioEl) {
-    heroBioEl.textContent = bio || 'Crafting resilient, high-performance web applications and backend architectures.';
-  }
 
   const avatarImg = document.getElementById('hero-avatar');
   const avatarFallback = document.getElementById('hero-avatar-fallback');
@@ -217,15 +208,6 @@ function renderProfile(profile) {
     };
   }
 
-  const aboutBioEl = document.getElementById('about-bio');
-  if (aboutBioEl) {
-    if (bio) {
-      aboutBioEl.innerHTML = `<p class="whitespace-pre-line">${escapeHtml(bio)}</p>`;
-    } else {
-      aboutBioEl.innerHTML = `<p class="text-slate-400 italic">No biography provided yet.</p>`;
-    }
-  }
-
   const aboutLocationEl = document.getElementById('about-location');
   if (aboutLocationEl) aboutLocationEl.textContent = location;
 
@@ -233,9 +215,6 @@ function renderProfile(profile) {
   if (aboutEmailEl) {
     aboutEmailEl.innerHTML = `<a href="mailto:${escapeHtml(email)}" class="hover:text-teal-400 transition-colors">${escapeHtml(email)}</a>`;
   }
-
-  const aboutTitleEl = document.getElementById('about-title');
-  if (aboutTitleEl) aboutTitleEl.textContent = title;
 
   const contactEmailEl = document.getElementById('contact-email');
   if (contactEmailEl) {
@@ -346,7 +325,8 @@ function renderSkills(skills) {
   const categoriesHtml = Object.entries(categories).map(([category, items]) => {
     const itemsHtml = items.map(skill => {
       const name = skill.skillName || skill.SkillName || 'Skill';
-      const level = Number(skill.skillLevel || skill.SkillLevel || 0);
+      const isReact = /^react(?:\.?js)?(?:\s*\(learning\))?$/i.test(name.trim());
+      const level = isReact ? 0 : Number(skill.skillLevel || skill.SkillLevel || 0);
 
       let dotsHtml = '';
       if (level > 0) {
@@ -361,7 +341,7 @@ function renderSkills(skills) {
 
       return `
         <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800/80 hover:border-teal-500/30 transition-all flex flex-col justify-between">
-          <span class="text-sm font-medium text-slate-200">${escapeHtml(name)}</span>
+          <span class="text-sm font-medium text-slate-200">${escapeHtml(isReact ? 'React (Learning)' : name)}</span>
           ${dotsHtml}
         </div>
       `;
@@ -387,18 +367,29 @@ function renderSkills(skills) {
 function renderSocialLinks(links) {
   const heroContainer = document.getElementById('hero-socials');
   const contactContainer = document.getElementById('contact-socials');
+  const whatsapp = {
+    platform: 'WhatsApp',
+    url: 'https://wa.me/963998283433',
+    phone: '+963 998 283 433'
+  };
 
-  if (!links || links.length === 0) {
-    if (contactContainer) {
-      contactContainer.innerHTML = '<span class="text-xs text-slate-500">No social links configured.</span>';
-    }
-    return;
-  }
+  const matchesPhone = value => {
+    const digits = value.replace(/^%2b/i, '').replace(/\D/g, '');
+    return /^(?:963|00963|0)?998283433$/.test(digits);
+  };
+  const socialLinks = [...new Set((links ?? []).map(link => {
+    const platform = link.platform || link.Platform || 'Link';
+    const url = link.url || link.Url || '#';
+    const phoneInUrl = url.match(/^(?:tel:|https?:\/\/(?:www\.)?wa\.me\/)([^?&#;]+)/i)?.[1]
+      ?? url.match(/^https?:\/\/(?:api|web)\.whatsapp\.com\/send\?(?:[^#]*&)?phone=([^&#]+)/i)?.[1];
+
+    return matchesPhone(platform) || (phoneInUrl && matchesPhone(phoneInUrl))
+      ? whatsapp
+      : { platform, url };
+  }))];
 
   if (heroContainer) {
-    heroContainer.innerHTML = links.map(link => {
-      const platform = link.platform || link.Platform || 'Link';
-      const url = link.url || link.Url || '#';
+    heroContainer.innerHTML = socialLinks.map(({ platform, url }) => {
       const icon = getSocialIcon(platform);
 
       return `
@@ -410,15 +401,15 @@ function renderSocialLinks(links) {
   }
 
   if (contactContainer) {
-    contactContainer.innerHTML = links.map(link => {
-      const platform = link.platform || link.Platform || 'Link';
-      const url = link.url || link.Url || '#';
+    const contactLinks = socialLinks.includes(whatsapp) ? socialLinks : [...socialLinks, whatsapp];
+    contactContainer.innerHTML = contactLinks.map(({ platform, url, phone }) => {
       const icon = getSocialIcon(platform);
+      const label = phone ? ` aria-label="Chat on WhatsApp at ${escapeHtml(phone)} (opens in a new tab)"` : '';
 
       return `
-        <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800/80 text-slate-300 hover:text-teal-400 hover:border-teal-500/40 hover:bg-slate-900 flex items-center gap-2.5 text-sm font-medium transition-all shadow-sm">
-          <i class="${icon} text-base text-teal-400"></i>
-          <span>${escapeHtml(platform)}</span>
+        <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer"${label} class="px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800/80 text-slate-300 hover:text-teal-400 hover:border-teal-500/40 hover:bg-slate-900 flex items-center gap-2.5 text-sm font-medium transition-all shadow-sm">
+          <i class="${icon} text-base text-teal-400" aria-hidden="true"></i>
+          <span>${escapeHtml(phone || platform)}</span>
         </a>
       `;
     }).join('');
