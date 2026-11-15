@@ -1,96 +1,185 @@
-﻿const loginView = document.getElementById('login-view');
-const dashboardView = document.getElementById('dashboard-view');
-const loginForm = document.getElementById('login-form');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const logoutBtn = document.getElementById('logout-btn');
-const statusBox = document.getElementById('status-box');
-const submitBtn = document.getElementById('submit-btn');
-const togglePasswordBtn = document.getElementById('toggle-password');
-const togglePasswordIcon = document.getElementById('toggle-password-icon');
+﻿const loginView = document.getElementById("login-view");
+const dashboardView = document.getElementById("dashboard-view");
+const loginForm = document.getElementById("login-form");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const logoutBtn = document.getElementById("logout-btn");
+const statusBox = document.getElementById("status-box");
+const submitBtn = document.getElementById("submit-btn");
+const togglePasswordBtn = document.getElementById("toggle-password");
+const togglePasswordIcon = document.getElementById("toggle-password-icon");
 
 // Project Modal
-const projectModal = document.getElementById('project-modal');
-const projectForm = document.getElementById('project-form');
-const modalTitle = document.getElementById('modal-title');
-const modalStatus = document.getElementById('modal-status');
-const projectIdInput = document.getElementById('project-id');
-const projectTitleInput = document.getElementById('project-title');
-const projectDescInput = document.getElementById('project-description');
-const projectGithubInput = document.getElementById('project-github-url');
-const projectLiveInput = document.getElementById('project-live-url');
-const projectImageInput = document.getElementById('project-image-url');
-const addProjectBtn = document.getElementById('add-project-btn');
-const modalCloseBtn = document.getElementById('modal-close-btn');
-const modalCancelBtn = document.getElementById('modal-cancel-btn');
-const modalSaveBtn = document.getElementById('modal-save-btn');
-const projectsTableBody = document.getElementById('projects-table-body');
+const projectModal = document.getElementById("project-modal");
+const projectForm = document.getElementById("project-form");
+const modalTitle = document.getElementById("modal-title");
+const modalStatus = document.getElementById("modal-status");
+const projectIdInput = document.getElementById("project-id");
+const projectTitleInput = document.getElementById("project-title");
+const projectDescInput = document.getElementById("project-description");
+const projectGithubInput = document.getElementById("project-github-url");
+const projectLiveInput = document.getElementById("project-live-url");
+const projectImageInput = document.getElementById("project-image-url");
+const addProjectBtn = document.getElementById("add-project-btn");
+const modalCloseBtn = document.getElementById("modal-close-btn");
+const modalCancelBtn = document.getElementById("modal-cancel-btn");
+const modalSaveBtn = document.getElementById("modal-save-btn");
+const projectsTableBody = document.getElementById("projects-table-body");
 
 // Skills
-const tabProjects = document.getElementById('tab-projects');
-const tabSkills = document.getElementById('tab-skills');
-const panelProjects = document.getElementById('panel-projects');
-const panelSkills = document.getElementById('panel-skills');
+const tabProjects = document.getElementById("tab-projects");
+const tabSkills = document.getElementById("tab-skills");
+const panelProjects = document.getElementById("panel-projects");
+const panelSkills = document.getElementById("panel-skills");
 
-const skillModal = document.getElementById('skill-modal');
-const skillForm = document.getElementById('skill-form');
-const skillModalTitle = document.getElementById('skill-modal-title');
-const skillModalStatus = document.getElementById('skill-modal-status');
-const skillIdInput = document.getElementById('skill-id');
-const skillNameInput = document.getElementById('skill-name');
-const skillCategoryInput = document.getElementById('skill-category');
-const skillLevelInput = document.getElementById('skill-level');
-const addSkillBtn = document.getElementById('add-skill-btn');
-const skillModalCloseBtn = document.getElementById('skill-modal-close-btn');
-const skillModalCancelBtn = document.getElementById('skill-modal-cancel-btn');
-const skillModalSaveBtn = document.getElementById('skill-modal-save-btn');
-const skillsTableBody = document.getElementById('skills-table-body');
+const skillModal = document.getElementById("skill-modal");
+const skillForm = document.getElementById("skill-form");
+const skillModalTitle = document.getElementById("skill-modal-title");
+const skillModalStatus = document.getElementById("skill-modal-status");
+const skillIdInput = document.getElementById("skill-id");
+const skillNameInput = document.getElementById("skill-name");
+const skillCategoryInput = document.getElementById("skill-category");
+const skillLevelInput = document.getElementById("skill-level");
+const addSkillBtn = document.getElementById("add-skill-btn");
+const skillModalCloseBtn = document.getElementById("skill-modal-close-btn");
+const skillModalCancelBtn = document.getElementById("skill-modal-cancel-btn");
+const skillModalSaveBtn = document.getElementById("skill-modal-save-btn");
+const skillsTableBody = document.getElementById("skills-table-body");
 
 // Social Links
-const tabSocialLinks = document.getElementById('tab-social-links');
-const panelSocialLinks = document.getElementById('panel-social-links');
+const tabSocialLinks = document.getElementById("tab-social-links");
+const panelSocialLinks = document.getElementById("panel-social-links");
 
-const socialLinkModal = document.getElementById('social-link-modal');
-const socialLinkForm = document.getElementById('social-link-form');
-const socialLinkModalTitle = document.getElementById('social-link-modal-title');
-const socialLinkModalStatus = document.getElementById('social-link-modal-status');
-const socialLinkIdInput = document.getElementById('social-link-id');
-const socialLinkPlatformInput = document.getElementById('social-link-platform');
-const socialLinkUrlInput = document.getElementById('social-link-url');
-const addSocialLinkBtn = document.getElementById('add-social-link-btn');
-const socialLinkModalCloseBtn = document.getElementById('social-link-modal-close-btn');
-const socialLinkModalCancelBtn = document.getElementById('social-link-modal-cancel-btn');
-const socialLinkModalSaveBtn = document.getElementById('social-link-modal-save-btn');
-const socialLinksTableBody = document.getElementById('social-links-table-body');
+const socialLinkModal = document.getElementById("social-link-modal");
+const socialLinkForm = document.getElementById("social-link-form");
+const socialLinkModalTitle = document.getElementById("social-link-modal-title");
+const socialLinkModalStatus = document.getElementById(
+  "social-link-modal-status",
+);
+const socialLinkIdInput = document.getElementById("social-link-id");
+const socialLinkPlatformInput = document.getElementById("social-link-platform");
+const socialLinkUrlInput = document.getElementById("social-link-url");
+const addSocialLinkBtn = document.getElementById("add-social-link-btn");
+const socialLinkModalCloseBtn = document.getElementById(
+  "social-link-modal-close-btn",
+);
+const socialLinkModalCancelBtn = document.getElementById(
+  "social-link-modal-cancel-btn",
+);
+const socialLinkModalSaveBtn = document.getElementById(
+  "social-link-modal-save-btn",
+);
+const socialLinksTableBody = document.getElementById("social-links-table-body");
 
 // Profile
-const tabProfile = document.getElementById('tab-profile');
-const panelProfile = document.getElementById('panel-profile');
-const profileCard = document.getElementById('profile-card');
-const profileEmptyState = document.getElementById('profile-empty-state');
-const editProfileBtn = document.getElementById('edit-profile-btn');
+const tabProfile = document.getElementById("tab-profile");
+const panelProfile = document.getElementById("panel-profile");
+const profileCard = document.getElementById("profile-card");
+const profileEmptyState = document.getElementById("profile-empty-state");
+const editProfileBtn = document.getElementById("edit-profile-btn");
 
-const profileViewFullname = document.getElementById('profile-view-fullname');
-const profileViewTitle = document.getElementById('profile-view-title');
-const profileViewEmail = document.getElementById('profile-view-email');
-const profileViewLocation = document.getElementById('profile-view-location');
-const profileViewImage = document.getElementById('profile-view-image');
-const profileViewBio = document.getElementById('profile-view-bio');
+const profileViewFullname = document.getElementById("profile-view-fullname");
+const profileViewTitle = document.getElementById("profile-view-title");
+const profileViewEmail = document.getElementById("profile-view-email");
+const profileViewLocation = document.getElementById("profile-view-location");
+const profileViewImage = document.getElementById("profile-view-image");
+const profileViewBio = document.getElementById("profile-view-bio");
 
-const profileModal = document.getElementById('profile-modal');
-const profileForm = document.getElementById('profile-form');
-const profileModalTitle = document.getElementById('profile-modal-title');
-const profileModalStatus = document.getElementById('profile-modal-status');
-const profileIdInput = document.getElementById('profile-id');
-const profileFullnameInput = document.getElementById('profile-fullname');
-const profileTitleInput = document.getElementById('profile-title');
-const profileEmailInput = document.getElementById('profile-email');
-const profileLocationInput = document.getElementById('profile-location');
-const profileImageUrlInput = document.getElementById('profile-image-url');
-const profileBioInput = document.getElementById('profile-bio');
-const profileModalCloseBtn = document.getElementById('profile-modal-close-btn');
-const profileModalCancelBtn = document.getElementById('profile-modal-cancel-btn');
-const profileModalSaveBtn = document.getElementById('profile-modal-save-btn');
+const profileModal = document.getElementById("profile-modal");
+const profileForm = document.getElementById("profile-form");
+const profileModalTitle = document.getElementById("profile-modal-title");
+const profileModalStatus = document.getElementById("profile-modal-status");
+const profileIdInput = document.getElementById("profile-id");
+const profileFullnameInput = document.getElementById("profile-fullname");
+const profileTitleInput = document.getElementById("profile-title");
+const profileEmailInput = document.getElementById("profile-email");
+const profileLocationInput = document.getElementById("profile-location");
+const profileImageUrlInput = document.getElementById("profile-image-url");
+const profileBioInput = document.getElementById("profile-bio");
+const profileModalCloseBtn = document.getElementById("profile-modal-close-btn");
+const profileModalCancelBtn = document.getElementById(
+  "profile-modal-cancel-btn",
+);
+const profileModalSaveBtn = document.getElementById("profile-modal-save-btn");
+
+// Users
+const tabUsers = document.getElementById("tab-users");
+const panelUsers = document.getElementById("panel-users");
+const addUserBtn = document.getElementById("add-user-btn");
+const usersTableBody = document.getElementById("users-table-body");
+
+const userAddModal = document.getElementById("user-add-modal");
+const userAddForm = document.getElementById("user-add-form");
+const userAddModalStatus = document.getElementById("user-add-modal-status");
+const userAddEmailInput = document.getElementById("user-add-email");
+const userAddPasswordInput = document.getElementById("user-add-password");
+const userAddModalCloseBtn = document.getElementById(
+  "user-add-modal-close-btn",
+);
+const userAddModalCancelBtn = document.getElementById(
+  "user-add-modal-cancel-btn",
+);
+
+const userEditEmailModal = document.getElementById("user-edit-email-modal");
+const userEditEmailForm = document.getElementById("user-edit-email-form");
+const userEditEmailModalStatus = document.getElementById(
+  "user-edit-email-modal-status",
+);
+const userEditEmailIdInput = document.getElementById("user-edit-email-id");
+const userEditEmailInput = document.getElementById("user-edit-email-input");
+const userEditEmailModalCloseBtn = document.getElementById(
+  "user-edit-email-modal-close-btn",
+);
+const userEditEmailModalCancelBtn = document.getElementById(
+  "user-edit-email-modal-cancel-btn",
+);
+
+const userEditPasswordModal = document.getElementById(
+  "user-edit-password-modal",
+);
+const userEditPasswordForm = document.getElementById("user-edit-password-form");
+const userEditPasswordModalStatus = document.getElementById(
+  "user-edit-password-modal-status",
+);
+const userEditPasswordUserIdInput = document.getElementById(
+  "user-edit-password-user-id",
+);
+const userEditPasswordCurrentInput = document.getElementById(
+  "user-edit-password-current",
+);
+const userEditPasswordNewInput = document.getElementById(
+  "user-edit-password-new",
+);
+const userEditPasswordModalCloseBtn = document.getElementById(
+  "user-edit-password-modal-close-btn",
+);
+const userEditPasswordModalCancelBtn = document.getElementById(
+  "user-edit-password-modal-cancel-btn",
+);
+
+const userDeleteModal = document.getElementById("user-delete-modal");
+const userDeleteForm = document.getElementById("user-delete-form");
+const userDeleteModalStatus = document.getElementById(
+  "user-delete-modal-status",
+);
+const userDeleteTargetIdInput = document.getElementById(
+  "user-delete-target-id",
+);
+const userDeleteMasterPasswordInput = document.getElementById(
+  "user-delete-master-password",
+);
+const userDeleteModalCloseBtn = document.getElementById(
+  "user-delete-modal-close-btn",
+);
+const userDeleteModalCancelBtn = document.getElementById(
+  "user-delete-modal-cancel-btn",
+);
+
+let usersCache = [];
+let mouseDownOnUserAddBackdrop = false;
+let mouseDownOnUserEditEmailBackdrop = false;
+let mouseDownOnUserEditPasswordBackdrop = false;
+let mouseDownOnUserDeleteBackdrop = false;
 
 let projectsCache = [];
 let skillsCache = [];
@@ -111,103 +200,207 @@ let refreshPromise = null;
 function showStatus(message, isError = true) {
   statusBox.textContent = message;
   statusBox.className = isError
-    ? 'w-full max-w-5xl mb-4 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200'
-    : 'w-full max-w-5xl mb-4 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200';
-  statusBox.classList.remove('hidden');
+    ? "w-full max-w-5xl mb-4 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200"
+    : "w-full max-w-5xl mb-4 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200";
+  statusBox.classList.remove("hidden");
 }
 
 function clearStatus() {
-  statusBox.textContent = '';
-  statusBox.classList.add('hidden');
+  statusBox.textContent = "";
+  statusBox.classList.add("hidden");
 }
 
 function showModalStatus(message, isError = true) {
   modalStatus.textContent = message;
   modalStatus.className = isError
-    ? 'mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200'
-    : 'mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200';
-  modalStatus.classList.remove('hidden');
+    ? "mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200"
+    : "mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200";
+  modalStatus.classList.remove("hidden");
 }
 
 function clearModalStatus() {
-  modalStatus.textContent = '';
-  modalStatus.classList.add('hidden');
+  modalStatus.textContent = "";
+  modalStatus.classList.add("hidden");
 }
 
 function showSkillModalStatus(message, isError = true) {
   if (!skillModalStatus) return;
   skillModalStatus.textContent = message;
   skillModalStatus.className = isError
-    ? 'mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200'
-    : 'mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200';
-  skillModalStatus.classList.remove('hidden');
+    ? "mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200"
+    : "mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200";
+  skillModalStatus.classList.remove("hidden");
 }
 
 function clearSkillModalStatus() {
   if (!skillModalStatus) return;
-  skillModalStatus.textContent = '';
-  skillModalStatus.classList.add('hidden');
+  skillModalStatus.textContent = "";
+  skillModalStatus.classList.add("hidden");
 }
 
 function showSocialLinkModalStatus(message, isError = true) {
   if (!socialLinkModalStatus) return;
   socialLinkModalStatus.textContent = message;
   socialLinkModalStatus.className = isError
-    ? 'mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200'
-    : 'mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200';
-  socialLinkModalStatus.classList.remove('hidden');
+    ? "mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200"
+    : "mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200";
+  socialLinkModalStatus.classList.remove("hidden");
 }
 
 function clearSocialLinkModalStatus() {
   if (!socialLinkModalStatus) return;
-  socialLinkModalStatus.textContent = '';
-  socialLinkModalStatus.classList.add('hidden');
+  socialLinkModalStatus.textContent = "";
+  socialLinkModalStatus.classList.add("hidden");
 }
 
 function showProfileModalStatus(message, isError = true) {
   if (!profileModalStatus) return;
   profileModalStatus.textContent = message;
   profileModalStatus.className = isError
-    ? 'mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200'
-    : 'mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200';
-  profileModalStatus.classList.remove('hidden');
+    ? "mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200"
+    : "mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200";
+  profileModalStatus.classList.remove("hidden");
 }
 
 function clearProfileModalStatus() {
   if (!profileModalStatus) return;
-  profileModalStatus.textContent = '';
-  profileModalStatus.classList.add('hidden');
+  profileModalStatus.textContent = "";
+  profileModalStatus.classList.add("hidden");
+}
+function showUserAddModalStatus(message, isError = true) {
+  if (!userAddModalStatus) return;
+  userAddModalStatus.textContent = message;
+  userAddModalStatus.className = isError
+    ? "mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200"
+    : "mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200";
+  userAddModalStatus.classList.remove("hidden");
+}
+function clearUserAddModalStatus() {
+  if (!userAddModalStatus) return;
+  userAddModalStatus.textContent = "";
+  userAddModalStatus.classList.add("hidden");
+}
+
+function showUserEditEmailModalStatus(message, isError = true) {
+  if (!userEditEmailModalStatus) return;
+  userEditEmailModalStatus.textContent = message;
+  userEditEmailModalStatus.className = isError
+    ? "mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200"
+    : "mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200";
+  userEditEmailModalStatus.classList.remove("hidden");
+}
+function clearUserEditEmailModalStatus() {
+  if (!userEditEmailModalStatus) return;
+  userEditEmailModalStatus.textContent = "";
+  userEditEmailModalStatus.classList.add("hidden");
+}
+
+function showUserEditPasswordModalStatus(message, isError = true) {
+  if (!userEditPasswordModalStatus) return;
+  userEditPasswordModalStatus.textContent = message;
+  userEditPasswordModalStatus.className = isError
+    ? "mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200"
+    : "mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200";
+  userEditPasswordModalStatus.classList.remove("hidden");
+}
+function clearUserEditPasswordModalStatus() {
+  if (!userEditPasswordModalStatus) return;
+  userEditPasswordModalStatus.textContent = "";
+  userEditPasswordModalStatus.classList.add("hidden");
+}
+
+function showUserDeleteModalStatus(message, isError = true) {
+  if (!userDeleteModalStatus) return;
+  userDeleteModalStatus.textContent = message;
+  userDeleteModalStatus.className = isError
+    ? "mb-3 p-3 rounded-lg text-sm font-medium bg-rose-950/80 border border-rose-500/50 text-rose-200"
+    : "mb-3 p-3 rounded-lg text-sm font-medium bg-teal-950/80 border border-teal-500/50 text-teal-200";
+  userDeleteModalStatus.classList.remove("hidden");
+}
+function clearUserDeleteModalStatus() {
+  if (!userDeleteModalStatus) return;
+  userDeleteModalStatus.textContent = "";
+  userDeleteModalStatus.classList.add("hidden");
+}
+
+function openUserAddModal() {
+  userAddForm.reset();
+  clearUserAddModalStatus();
+  userAddModal.classList.remove("hidden");
+}
+function closeUserAddModal() {
+  userAddModal.classList.add("hidden");
+  userAddForm.reset();
+  clearUserAddModalStatus();
+}
+
+function openUserEditEmailModal(userId, currentEmail) {
+  userEditEmailForm.reset();
+  clearUserEditEmailModalStatus();
+  userEditEmailIdInput.value = userId;
+  userEditEmailInput.value = currentEmail || "";
+  userEditEmailModal.classList.remove("hidden");
+}
+function closeUserEditEmailModal() {
+  userEditEmailModal.classList.add("hidden");
+  userEditEmailForm.reset();
+  clearUserEditEmailModalStatus();
+}
+
+function openUserEditPasswordModal(userId) {
+  userEditPasswordForm.reset();
+  clearUserEditPasswordModalStatus();
+  userEditPasswordUserIdInput.value = userId;
+  userEditPasswordModal.classList.remove("hidden");
+}
+function closeUserEditPasswordModal() {
+  userEditPasswordModal.classList.add("hidden");
+  userEditPasswordForm.reset();
+  clearUserEditPasswordModalStatus();
+}
+
+function openUserDeleteModal(userId) {
+  userDeleteForm.reset();
+  clearUserDeleteModalStatus();
+  userDeleteTargetIdInput.value = userId;
+  userDeleteModal.classList.remove("hidden");
+}
+function closeUserDeleteModal() {
+  userDeleteModal.classList.add("hidden");
+  userDeleteForm.reset();
+  clearUserDeleteModalStatus();
 }
 
 function escapeHtml(str) {
-  if (!str) return '';
+  if (!str) return "";
   return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function extractErrorMessage(data, fallback) {
   if (!data) return fallback;
-  if (typeof data === 'string') return data;
+  if (typeof data === "string") return data;
   if (data.detail) return data.detail;
   if (data.message) return data.message;
-  if (data.title && data.title !== 'One or more validation errors occurred.') return data.title;
-  if (data.errors && typeof data.errors === 'object') {
+  if (data.title && data.title !== "One or more validation errors occurred.")
+    return data.title;
+  if (data.errors && typeof data.errors === "object") {
     const messages = [];
     for (const key in data.errors) {
       if (Array.isArray(data.errors[key])) messages.push(...data.errors[key]);
     }
-    if (messages.length > 0) return messages.join(' | ');
+    if (messages.length > 0) return messages.join(" | ");
   }
   return fallback;
 }
 
 // ---------- Logout Modal ----------
 function injectLogoutModal() {
-  if (document.getElementById('logout-confirm-modal')) return;
+  if (document.getElementById("logout-confirm-modal")) return;
   const html = `
     <div id="logout-confirm-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
       <div class="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl">
@@ -224,33 +417,44 @@ function injectLogoutModal() {
         </div>
       </div>
     </div>`;
-  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.insertAdjacentHTML("beforeend", html);
 
-  const logoutModal = document.getElementById('logout-confirm-modal');
-  document.getElementById('logout-cancel-btn').addEventListener('click', hideLogoutConfirm);
-  document.getElementById('logout-confirm-btn').addEventListener('click', () => { hideLogoutConfirm(); performLogout(); });
+  const logoutModal = document.getElementById("logout-confirm-modal");
+  document
+    .getElementById("logout-cancel-btn")
+    .addEventListener("click", hideLogoutConfirm);
+  document
+    .getElementById("logout-confirm-btn")
+    .addEventListener("click", () => {
+      hideLogoutConfirm();
+      performLogout();
+    });
 
-  logoutModal.addEventListener('mousedown', (e) => { mouseDownOnLogoutBackdrop = e.target === logoutModal; });
-  logoutModal.addEventListener('mouseup', (e) => {
-    if (mouseDownOnLogoutBackdrop && e.target === logoutModal) hideLogoutConfirm();
+  logoutModal.addEventListener("mousedown", (e) => {
+    mouseDownOnLogoutBackdrop = e.target === logoutModal;
+  });
+  logoutModal.addEventListener("mouseup", (e) => {
+    if (mouseDownOnLogoutBackdrop && e.target === logoutModal)
+      hideLogoutConfirm();
     mouseDownOnLogoutBackdrop = false;
   });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !logoutModal.classList.contains('hidden')) hideLogoutConfirm();
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !logoutModal.classList.contains("hidden"))
+      hideLogoutConfirm();
   });
 }
 
 function showLogoutConfirm() {
-  const m = document.getElementById('logout-confirm-modal');
-  if (m) m.classList.remove('hidden');
+  const m = document.getElementById("logout-confirm-modal");
+  if (m) m.classList.remove("hidden");
 }
 function hideLogoutConfirm() {
-  const m = document.getElementById('logout-confirm-modal');
-  if (m) m.classList.add('hidden');
+  const m = document.getElementById("logout-confirm-modal");
+  if (m) m.classList.add("hidden");
 }
 function performLogout() {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
   clearStatus();
   showLogin();
 }
@@ -260,31 +464,35 @@ async function refreshAccessToken() {
   if (isRefreshing && refreshPromise) return refreshPromise;
   isRefreshing = true;
   refreshPromise = (async () => {
-    const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = localStorage.getItem("refreshToken");
     if (!refreshToken) return null;
     try {
-      const res = await fetch('/api/Auth/Refresh', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken })
+      const res = await fetch("/api/Auth/Refresh", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken }),
       });
       if (!res.ok) return null;
       const data = await res.json().catch(() => null);
       const newAccess = data?.accessToken || data?.AccessToken;
       const newRefresh = data?.refreshToken || data?.RefreshToken;
       if (!newAccess) return null;
-      localStorage.setItem('accessToken', newAccess);
-      if (newRefresh) localStorage.setItem('refreshToken', newRefresh);
+      localStorage.setItem("accessToken", newAccess);
+      if (newRefresh) localStorage.setItem("refreshToken", newRefresh);
       return newAccess;
-    } catch { return null; }
-    finally { isRefreshing = false; refreshPromise = null; }
+    } catch {
+      return null;
+    } finally {
+      isRefreshing = false;
+      refreshPromise = null;
+    }
   })();
   return refreshPromise;
 }
 
 function forceLogout(reason) {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
   clearStatus();
   clearModalStatus();
   clearSkillModalStatus();
@@ -295,20 +503,27 @@ function forceLogout(reason) {
   closeSocialLinkModal();
   closeProfileModal();
   hideLogoutConfirm();
-  showStatus(reason || 'Your session expired. Please sign in again.', true);
+  showStatus(reason || "Your session expired. Please sign in again.", true);
   showLogin();
 }
 
 async function fetchWithAuth(url, options = {}) {
-  const doFetch = (token) => fetch(url, {
-    ...options,
-    headers: { ...(options.headers || {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) }
-  });
-  let res = await doFetch(localStorage.getItem('accessToken'));
+  const doFetch = (token) =>
+    fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+  let res = await doFetch(localStorage.getItem("accessToken"));
   if (res.status === 401) {
     const newToken = await refreshAccessToken();
     if (newToken) res = await doFetch(newToken);
-    else { forceLogout('Your session expired. Please sign in again.'); throw new Error('SESSION_EXPIRED'); }
+    else {
+      forceLogout("Your session expired. Please sign in again.");
+      throw new Error("SESSION_EXPIRED");
+    }
   }
   return res;
 }
@@ -318,23 +533,24 @@ function openProjectModal(project = null) {
   projectForm.reset();
   clearModalStatus();
   if (project) {
-    const id = project.projectId ?? project.id ?? project.ProjectId ?? '';
-    modalTitle.textContent = 'Edit Project';
+    const id = project.projectId ?? project.id ?? project.ProjectId ?? "";
+    modalTitle.textContent = "Edit Project";
     projectIdInput.value = id;
-    projectTitleInput.value = project.title || project.Title || '';
-    projectDescInput.value = project.description || project.Description || '';
-    projectGithubInput.value = project.gitHubUrl || project.githubUrl || project.GitHubUrl || '';
-    projectLiveInput.value = project.liveUrl || project.LiveUrl || '';
-    projectImageInput.value = project.imageUrl || project.ImageUrl || '';
+    projectTitleInput.value = project.title || project.Title || "";
+    projectDescInput.value = project.description || project.Description || "";
+    projectGithubInput.value =
+      project.gitHubUrl || project.githubUrl || project.GitHubUrl || "";
+    projectLiveInput.value = project.liveUrl || project.LiveUrl || "";
+    projectImageInput.value = project.imageUrl || project.ImageUrl || "";
   } else {
-    modalTitle.textContent = 'Add Project';
-    projectIdInput.value = '';
+    modalTitle.textContent = "Add Project";
+    projectIdInput.value = "";
   }
-  projectModal.classList.remove('hidden');
+  projectModal.classList.remove("hidden");
 }
 
 function closeProjectModal() {
-  projectModal.classList.add('hidden');
+  projectModal.classList.add("hidden");
   projectForm.reset();
   clearModalStatus();
 }
@@ -342,9 +558,9 @@ function closeProjectModal() {
 async function fetchProjects() {
   projectsTableBody.innerHTML = `<tr><td colspan="4" class="py-6 px-4 text-center text-slate-500">Loading projects...</td></tr>`;
   try {
-    const res = await fetchWithAuth('/api/Project/Get/All');
+    const res = await fetchWithAuth("/api/Project/Get/All");
     if (!res.ok) {
-      showStatus('Failed to load projects.', true);
+      showStatus("Failed to load projects.", true);
       projectsTableBody.innerHTML = `<tr><td colspan="4" class="py-6 px-4 text-center text-rose-400">Error loading projects.</td></tr>`;
       return;
     }
@@ -368,8 +584,8 @@ async function fetchProjects() {
     renderProjectsTable(projects);
     initProjectSortable();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Error connecting to project service.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Error connecting to project service.", true);
   }
 }
 
@@ -378,12 +594,16 @@ function renderProjectsTable(projects) {
     projectsTableBody.innerHTML = `<tr><td colspan="4" class="py-6 px-4 text-center text-slate-400">No projects found. Add one above!</td></tr>`;
     return;
   }
-  projectsTableBody.innerHTML = projects.map(p => {
-    const id = p.projectId ?? p.id ?? p.ProjectId;
-    const title = p.title || p.Title || 'Untitled';
-    const description = p.description || p.Description || '';
-    const truncatedDesc = description.length > 75 ? `${description.slice(0, 75)}...` : description;
-    return `
+  projectsTableBody.innerHTML = projects
+    .map((p) => {
+      const id = p.projectId ?? p.id ?? p.ProjectId;
+      const title = p.title || p.Title || "Untitled";
+      const description = p.description || p.Description || "";
+      const truncatedDesc =
+        description.length > 75
+          ? `${description.slice(0, 75)}...`
+          : description;
+      return `
       <tr data-project-id="${id}" class="hover:bg-slate-900/60 transition-colors">
         <td class="py-3 px-2 w-10 text-center">
           <i class="fa-solid fa-grip-vertical text-slate-500 hover:text-teal-400 cursor-grab drag-handle transition-colors"></i>
@@ -395,123 +615,158 @@ function renderProjectsTable(projects) {
           <button type="button" onclick="deleteProject('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-rose-950/60 text-rose-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-trash mr-1"></i>Delete</button>
         </td>
       </tr>`;
-  }).join('');
+    })
+    .join("");
 }
 
 function initProjectSortable() {
   if (projectSortable) projectSortable.destroy();
   projectSortable = new Sortable(projectsTableBody, {
     animation: 150,
-    handle: '.drag-handle',
-    ghostClass: 'sortable-ghost',
-    dragClass: 'sortable-drag',
-    onEnd: handleProjectReorder
+    handle: ".drag-handle",
+    ghostClass: "sortable-ghost",
+    dragClass: "sortable-drag",
+    onEnd: handleProjectReorder,
   });
 }
 
 async function handleProjectReorder() {
-  const rows = Array.from(projectsTableBody.querySelectorAll('tr[data-project-id]'));
+  const rows = Array.from(
+    projectsTableBody.querySelectorAll("tr[data-project-id]"),
+  );
 
   const items = rows.map((r, i) => ({
     projectId: parseInt(r.dataset.projectId, 10),
-    displayOrder: i + 1
+    displayOrder: i + 1,
   }));
 
   if (items.length === 0) return;
 
-  showStatus('Saving new order...', false);
+  showStatus("Saving new order...", false);
 
   try {
-    const res = await fetchWithAuth('/api/Project/Reorder', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(items)
+    const res = await fetchWithAuth("/api/Project/Reorder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(items),
     });
 
     if (!res.ok) {
       const data = await res.json().catch(() => null);
-      const msg = extractErrorMessage(data, `Failed to save order (HTTP ${res.status}).`);
+      const msg = extractErrorMessage(
+        data,
+        `Failed to save order (HTTP ${res.status}).`,
+      );
       showStatus(msg, true);
       await fetchProjects();
       return;
     }
 
-    showStatus('Order updated successfully.', false);
+    showStatus("Order updated successfully.", false);
     await fetchProjects();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Network error while saving order.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Network error while saving order.", true);
     await fetchProjects();
   }
 }
 
 // ---------- Confirm Modal ----------
-function showConfirmModal({ title, message, confirmText = 'Confirm', isDestructive = true }) {
+function showConfirmModal({
+  title,
+  message,
+  confirmText = "Confirm",
+  isDestructive = true,
+}) {
   return new Promise((resolve) => {
-    const existing = document.getElementById('custom-confirm-modal');
+    const existing = document.getElementById("custom-confirm-modal");
     if (existing) existing.remove();
-    const overlay = document.createElement('div');
-    overlay.id = 'custom-confirm-modal';
-    overlay.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm';
+    const overlay = document.createElement("div");
+    overlay.id = "custom-confirm-modal";
+    overlay.className =
+      "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm";
     overlay.innerHTML = `
       <div class="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl text-center">
-        <div class="w-12 h-12 rounded-full ${isDestructive ? 'bg-rose-500/10 border-rose-500/20 text-rose-400' : 'bg-teal-500/10 border-teal-500/20 text-teal-400'} border flex items-center justify-center mx-auto mb-4 text-xl">
-          <i class="fa-solid ${isDestructive ? 'fa-triangle-exclamation' : 'fa-circle-question'}"></i>
+        <div class="w-12 h-12 rounded-full ${isDestructive ? "bg-rose-500/10 border-rose-500/20 text-rose-400" : "bg-teal-500/10 border-teal-500/20 text-teal-400"} border flex items-center justify-center mx-auto mb-4 text-xl">
+          <i class="fa-solid ${isDestructive ? "fa-triangle-exclamation" : "fa-circle-question"}"></i>
         </div>
         <h3 class="text-lg font-bold text-white mb-2">${escapeHtml(title)}</h3>
         <p class="text-slate-400 text-sm mb-6">${escapeHtml(message)}</p>
         <div class="flex items-center justify-center gap-3">
           <button type="button" id="confirm-modal-cancel" class="flex-1 py-2 px-4 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm transition-colors cursor-pointer">Cancel</button>
-          <button type="button" id="confirm-modal-confirm" class="flex-1 py-2 px-4 rounded-lg ${isDestructive ? 'bg-rose-600 hover:bg-rose-500 text-white' : 'bg-teal-500 hover:bg-teal-400 text-slate-950'} font-semibold text-sm transition-colors cursor-pointer">${escapeHtml(confirmText)}</button>
+          <button type="button" id="confirm-modal-confirm" class="flex-1 py-2 px-4 rounded-lg ${isDestructive ? "bg-rose-600 hover:bg-rose-500 text-white" : "bg-teal-500 hover:bg-teal-400 text-slate-950"} font-semibold text-sm transition-colors cursor-pointer">${escapeHtml(confirmText)}</button>
         </div>
       </div>`;
     document.body.appendChild(overlay);
     const cleanup = (result) => {
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener("keydown", onKeyDown);
       overlay.remove();
       resolve(result);
     };
-    const onKeyDown = (e) => { if (e.key === 'Escape') cleanup(false); };
-    document.addEventListener('keydown', onKeyDown);
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") cleanup(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
     let mdb = false;
-    overlay.addEventListener('mousedown', (e) => { mdb = (e.target === overlay); });
-    overlay.addEventListener('mouseup', (e) => { if (mdb && e.target === overlay) cleanup(false); mdb = false; });
-    overlay.querySelector('#confirm-modal-cancel').addEventListener('click', () => cleanup(false));
-    overlay.querySelector('#confirm-modal-confirm').addEventListener('click', () => cleanup(true));
+    overlay.addEventListener("mousedown", (e) => {
+      mdb = e.target === overlay;
+    });
+    overlay.addEventListener("mouseup", (e) => {
+      if (mdb && e.target === overlay) cleanup(false);
+      mdb = false;
+    });
+    overlay
+      .querySelector("#confirm-modal-cancel")
+      .addEventListener("click", () => cleanup(false));
+    overlay
+      .querySelector("#confirm-modal-confirm")
+      .addEventListener("click", () => cleanup(true));
   });
 }
 
 // ---------- Project Actions ----------
-window.editProject = function(id) {
-  const p = projectsCache.find(x => String(x.projectId ?? x.id ?? x.ProjectId) === String(id));
+window.editProject = function (id) {
+  const p = projectsCache.find(
+    (x) => String(x.projectId ?? x.id ?? x.ProjectId) === String(id),
+  );
   if (p) openProjectModal(p);
-  else showStatus('Project not found.', true);
+  else showStatus("Project not found.", true);
 };
 
-window.deleteProject = async function(id) {
+window.deleteProject = async function (id) {
   const confirmed = await showConfirmModal({
-    title: 'Delete Project',
-    message: 'Are you sure you want to delete this project? This action cannot be undone.',
-    confirmText: 'Delete', isDestructive: true
+    title: "Delete Project",
+    message:
+      "Are you sure you want to delete this project? This action cannot be undone.",
+    confirmText: "Delete",
+    isDestructive: true,
   });
   if (!confirmed) return;
   clearStatus();
   try {
-    const res = await fetchWithAuth(`/api/Project/Delete/${id}`, { method: 'DELETE' });
+    const res = await fetchWithAuth(`/api/Project/Delete/${id}`, {
+      method: "DELETE",
+    });
     if (!res.ok) {
       const data = await res.json().catch(() => null);
-      showStatus(extractErrorMessage(data, `Failed to delete project (HTTP ${res.status}).`), true);
+      showStatus(
+        extractErrorMessage(
+          data,
+          `Failed to delete project (HTTP ${res.status}).`,
+        ),
+        true,
+      );
       return;
     }
-    showStatus('Project deleted successfully.', false);
+    showStatus("Project deleted successfully.", false);
     await fetchProjects();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Network error while deleting project.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Network error while deleting project.", true);
   }
 };
 
-projectForm.addEventListener('submit', async (e) => {
+projectForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   clearModalStatus();
   const id = projectIdInput.value.trim();
@@ -520,95 +775,134 @@ projectForm.addEventListener('submit', async (e) => {
   const gitHubUrl = projectGithubInput.value.trim() || null;
   const liveUrl = projectLiveInput.value.trim() || null;
   const imageUrl = projectImageInput.value.trim() || null;
-  if (!title || !description) { showModalStatus('Title and description are required.', true); return; }
+  if (!title || !description) {
+    showModalStatus("Title and description are required.", true);
+    return;
+  }
   const payload = { title, description, gitHubUrl, liveUrl, imageUrl };
   const isEdit = !!id;
-  const url = isEdit ? `/api/Project/Update/${id}` : '/api/Project/Add';
-  const method = isEdit ? 'PUT' : 'POST';
+  const url = isEdit ? `/api/Project/Update/${id}` : "/api/Project/Add";
+  const method = isEdit ? "PUT" : "POST";
   const originalText = modalSaveBtn.textContent;
   modalSaveBtn.disabled = true;
-  modalSaveBtn.classList.add('opacity-70', 'cursor-not-allowed');
-  modalSaveBtn.textContent = isEdit ? 'Updating...' : 'Saving...';
+  modalSaveBtn.classList.add("opacity-70", "cursor-not-allowed");
+  modalSaveBtn.textContent = isEdit ? "Updating..." : "Saving...";
   try {
     const res = await fetchWithAuth(url, {
       method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
     const data = await res.json().catch(() => null);
     if (!res.ok) {
-      showModalStatus(extractErrorMessage(data, isEdit ? `Failed to update project (HTTP ${res.status}).` : `Failed to add project (HTTP ${res.status}).`), true);
+      showModalStatus(
+        extractErrorMessage(
+          data,
+          isEdit
+            ? `Failed to update project (HTTP ${res.status}).`
+            : `Failed to add project (HTTP ${res.status}).`,
+        ),
+        true,
+      );
       return;
     }
     closeProjectModal();
-    showStatus(isEdit ? 'Project updated successfully.' : 'Project added successfully.', false);
+    showStatus(
+      isEdit ? "Project updated successfully." : "Project added successfully.",
+      false,
+    );
     await fetchProjects();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showModalStatus(`Error: ${err.message || 'Network error.'}`, true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showModalStatus(`Error: ${err.message || "Network error."}`, true);
   } finally {
     modalSaveBtn.disabled = false;
-    modalSaveBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+    modalSaveBtn.classList.remove("opacity-70", "cursor-not-allowed");
     modalSaveBtn.textContent = originalText;
   }
 });
 
-addProjectBtn.addEventListener('click', () => openProjectModal());
-modalCloseBtn.addEventListener('click', closeProjectModal);
-modalCancelBtn.addEventListener('click', closeProjectModal);
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !projectModal.classList.contains('hidden')) closeProjectModal();
+addProjectBtn.addEventListener("click", () => openProjectModal());
+modalCloseBtn.addEventListener("click", closeProjectModal);
+modalCancelBtn.addEventListener("click", closeProjectModal);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !projectModal.classList.contains("hidden"))
+    closeProjectModal();
 });
-projectModal.addEventListener('mousedown', (e) => { mouseDownOnBackdrop = e.target === projectModal; });
-projectModal.addEventListener('mouseup', (e) => {
+projectModal.addEventListener("mousedown", (e) => {
+  mouseDownOnBackdrop = e.target === projectModal;
+});
+projectModal.addEventListener("mouseup", (e) => {
   if (mouseDownOnBackdrop && e.target === projectModal) closeProjectModal();
   mouseDownOnBackdrop = false;
 });
 
 // ---------- Tabs ----------
-const ACTIVE_TAB_CLASS = 'px-4 py-2 rounded-lg bg-teal-500/10 text-teal-400 border border-teal-500/30 flex items-center gap-2 cursor-pointer';
-const INACTIVE_TAB_CLASS = 'px-4 py-2 rounded-lg text-slate-400 hover:text-slate-300 transition-colors flex items-center gap-2 cursor-pointer';
+const ACTIVE_TAB_CLASS =
+  "px-4 py-2 rounded-lg bg-teal-500/10 text-teal-400 border border-teal-500/30 flex items-center gap-2 cursor-pointer";
+const INACTIVE_TAB_CLASS =
+  "px-4 py-2 rounded-lg text-slate-400 hover:text-slate-300 transition-colors flex items-center gap-2 cursor-pointer";
 
 function switchTab(tabName) {
-  if (tabName === 'projects') {
-    panelProjects.classList.remove('hidden');
-    panelSkills.classList.add('hidden');
-    panelSocialLinks.classList.add('hidden');
-    panelProfile.classList.add('hidden');
+  if (tabName === "projects") {
+    panelProjects.classList.remove("hidden");
+    panelSkills.classList.add("hidden");
+    panelSocialLinks.classList.add("hidden");
+    panelProfile.classList.add("hidden");
+    panelUsers.classList.add("hidden");
     tabProjects.className = ACTIVE_TAB_CLASS;
     tabSkills.className = INACTIVE_TAB_CLASS;
     tabSocialLinks.className = INACTIVE_TAB_CLASS;
     tabProfile.className = INACTIVE_TAB_CLASS;
-  } else if (tabName === 'skills') {
-    panelProjects.classList.add('hidden');
-    panelSkills.classList.remove('hidden');
-    panelSocialLinks.classList.add('hidden');
-    panelProfile.classList.add('hidden');
+    tabUsers.className = INACTIVE_TAB_CLASS;
+  } else if (tabName === "skills") {
+    panelProjects.classList.add("hidden");
+    panelSkills.classList.remove("hidden");
+    panelSocialLinks.classList.add("hidden");
+    panelProfile.classList.add("hidden");
+    panelUsers.classList.add("hidden");
     tabSkills.className = ACTIVE_TAB_CLASS;
     tabProjects.className = INACTIVE_TAB_CLASS;
     tabSocialLinks.className = INACTIVE_TAB_CLASS;
     tabProfile.className = INACTIVE_TAB_CLASS;
+    tabUsers.className = INACTIVE_TAB_CLASS;
     fetchSkills();
-  } else if (tabName === 'social-links') {
-    panelProjects.classList.add('hidden');
-    panelSkills.classList.add('hidden');
-    panelSocialLinks.classList.remove('hidden');
-    panelProfile.classList.add('hidden');
+  } else if (tabName === "social-links") {
+    panelProjects.classList.add("hidden");
+    panelSkills.classList.add("hidden");
+    panelSocialLinks.classList.remove("hidden");
+    panelProfile.classList.add("hidden");
+    panelUsers.classList.add("hidden");
     tabSocialLinks.className = ACTIVE_TAB_CLASS;
     tabProjects.className = INACTIVE_TAB_CLASS;
     tabSkills.className = INACTIVE_TAB_CLASS;
     tabProfile.className = INACTIVE_TAB_CLASS;
+    tabUsers.className = INACTIVE_TAB_CLASS;
     fetchSocialLinks();
-  } else if (tabName === 'profile') {
-    panelProjects.classList.add('hidden');
-    panelSkills.classList.add('hidden');
-    panelSocialLinks.classList.add('hidden');
-    panelProfile.classList.remove('hidden');
+  } else if (tabName === "profile") {
+    panelProjects.classList.add("hidden");
+    panelSkills.classList.add("hidden");
+    panelSocialLinks.classList.add("hidden");
+    panelProfile.classList.remove("hidden");
+    panelUsers.classList.add("hidden");
     tabProfile.className = ACTIVE_TAB_CLASS;
     tabProjects.className = INACTIVE_TAB_CLASS;
     tabSkills.className = INACTIVE_TAB_CLASS;
     tabSocialLinks.className = INACTIVE_TAB_CLASS;
+    tabUsers.className = INACTIVE_TAB_CLASS;
     fetchProfile();
+  } else if (tabName === "users") {
+    panelProjects.classList.add("hidden");
+    panelSkills.classList.add("hidden");
+    panelSocialLinks.classList.add("hidden");
+    panelProfile.classList.add("hidden");
+    panelUsers.classList.remove("hidden");
+    tabUsers.className = ACTIVE_TAB_CLASS;
+    tabProjects.className = INACTIVE_TAB_CLASS;
+    tabSkills.className = INACTIVE_TAB_CLASS;
+    tabSocialLinks.className = INACTIVE_TAB_CLASS;
+    tabProfile.className = INACTIVE_TAB_CLASS;
+    fetchUsers();
   }
 }
 
@@ -617,22 +911,26 @@ function openSkillModal(skill = null) {
   skillForm.reset();
   clearSkillModalStatus();
   if (skill) {
-    const id = skill.skillId ?? skill.id ?? skill.SkillId ?? '';
-    skillModalTitle.textContent = 'Edit Skill';
+    const id = skill.skillId ?? skill.id ?? skill.SkillId ?? "";
+    skillModalTitle.textContent = "Edit Skill";
     skillIdInput.value = id;
-    skillNameInput.value = skill.skillName || skill.SkillName || skill.name || '';
-    skillCategoryInput.value = skill.skillCategory || skill.SkillCategory || skill.category || '';
-    skillLevelInput.value = String(skill.skillLevel ?? skill.SkillLevel ?? skill.level ?? 3);
+    skillNameInput.value =
+      skill.skillName || skill.SkillName || skill.name || "";
+    skillCategoryInput.value =
+      skill.skillCategory || skill.SkillCategory || skill.category || "";
+    skillLevelInput.value = String(
+      skill.skillLevel ?? skill.SkillLevel ?? skill.level ?? 3,
+    );
   } else {
-    skillModalTitle.textContent = 'Add Skill';
-    skillIdInput.value = '';
-    skillLevelInput.value = '3';
+    skillModalTitle.textContent = "Add Skill";
+    skillIdInput.value = "";
+    skillLevelInput.value = "3";
   }
-  skillModal.classList.remove('hidden');
+  skillModal.classList.remove("hidden");
 }
 
 function closeSkillModal() {
-  skillModal.classList.add('hidden');
+  skillModal.classList.add("hidden");
   clearSkillModalStatus();
   skillForm.reset();
 }
@@ -640,9 +938,9 @@ function closeSkillModal() {
 async function fetchSkills() {
   skillsTableBody.innerHTML = `<tr><td colspan="5" class="py-6 px-4 text-center text-slate-500">Loading skills...</td></tr>`;
   try {
-    const res = await fetchWithAuth('/api/Skill/Get/All');
+    const res = await fetchWithAuth("/api/Skill/Get/All");
     if (!res.ok) {
-      showStatus('Failed to load skills.', true);
+      showStatus("Failed to load skills.", true);
       skillsTableBody.innerHTML = `<tr><td colspan="5" class="py-6 px-4 text-center text-rose-400">Error loading skills.</td></tr>`;
       return;
     }
@@ -666,8 +964,8 @@ async function fetchSkills() {
     renderSkillsTable(skills);
     initSkillSortable();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Error connecting to skill service.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Error connecting to skill service.", true);
   }
 }
 
@@ -676,15 +974,27 @@ function renderSkillsTable(skills) {
     skillsTableBody.innerHTML = `<tr><td colspan="5" class="py-6 px-4 text-center text-slate-400">No skills found. Add one above!</td></tr>`;
     return;
   }
-  skillsTableBody.innerHTML = skills.map(skill => {
-    const id = skill.skillId ?? skill.id ?? skill.SkillId;
-    const name = skill.skillName || skill.SkillName || skill.name || 'Unnamed';
-    const category = skill.skillCategory || skill.SkillCategory || skill.category || 'General';
-    const level = Math.max(1, Math.min(5, Number(skill.skillLevel ?? skill.SkillLevel ?? skill.level ?? 1)));
-    const filledDots = '●'.repeat(level);
-    const emptyDots = '○'.repeat(5 - level);
+  skillsTableBody.innerHTML = skills
+    .map((skill) => {
+      const id = skill.skillId ?? skill.id ?? skill.SkillId;
+      const name =
+        skill.skillName || skill.SkillName || skill.name || "Unnamed";
+      const category =
+        skill.skillCategory ||
+        skill.SkillCategory ||
+        skill.category ||
+        "General";
+      const level = Math.max(
+        1,
+        Math.min(
+          5,
+          Number(skill.skillLevel ?? skill.SkillLevel ?? skill.level ?? 1),
+        ),
+      );
+      const filledDots = "●".repeat(level);
+      const emptyDots = "○".repeat(5 - level);
 
-    return `
+      return `
       <tr data-skill-id="${id}" class="hover:bg-slate-900/60 transition-colors">
         <td class="py-3 px-2 w-10 text-center">
           <i class="fa-solid fa-grip-vertical text-slate-500 hover:text-teal-400 cursor-grab drag-handle transition-colors"></i>
@@ -699,86 +1009,104 @@ function renderSkillsTable(skills) {
           <button type="button" onclick="deleteSkill('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-rose-950/60 text-rose-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-trash mr-1"></i>Delete</button>
         </td>
       </tr>`;
-  }).join('');
+    })
+    .join("");
 }
 
 function initSkillSortable() {
   if (skillSortable) skillSortable.destroy();
   skillSortable = new Sortable(skillsTableBody, {
     animation: 150,
-    handle: '.drag-handle',
-    ghostClass: 'sortable-ghost',
-    dragClass: 'sortable-drag',
-    onEnd: handleSkillReorder
+    handle: ".drag-handle",
+    ghostClass: "sortable-ghost",
+    dragClass: "sortable-drag",
+    onEnd: handleSkillReorder,
   });
 }
 
 async function handleSkillReorder() {
-  const rows = Array.from(skillsTableBody.querySelectorAll('tr[data-skill-id]'));
+  const rows = Array.from(
+    skillsTableBody.querySelectorAll("tr[data-skill-id]"),
+  );
 
   const items = rows.map((r, i) => ({
     skillId: parseInt(r.dataset.skillId, 10),
-    displayOrder: i + 1
+    displayOrder: i + 1,
   }));
 
   if (items.length === 0) return;
 
-  showStatus('Saving new order...', false);
+  showStatus("Saving new order...", false);
 
   try {
-    const res = await fetchWithAuth('/api/Skill/Reorder', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(items)
+    const res = await fetchWithAuth("/api/Skill/Reorder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(items),
     });
 
     if (!res.ok) {
       const data = await res.json().catch(() => null);
-      const msg = extractErrorMessage(data, `Failed to save order (HTTP ${res.status}).`);
+      const msg = extractErrorMessage(
+        data,
+        `Failed to save order (HTTP ${res.status}).`,
+      );
       showStatus(msg, true);
       await fetchSkills();
       return;
     }
 
-    showStatus('Order updated successfully.', false);
+    showStatus("Order updated successfully.", false);
     await fetchSkills();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Network error while saving order.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Network error while saving order.", true);
     await fetchSkills();
   }
 }
 
-window.editSkill = function(id) {
-  const s = skillsCache.find(x => String(x.skillId ?? x.id ?? x.SkillId) === String(id));
+window.editSkill = function (id) {
+  const s = skillsCache.find(
+    (x) => String(x.skillId ?? x.id ?? x.SkillId) === String(id),
+  );
   if (s) openSkillModal(s);
-  else showStatus('Skill not found.', true);
+  else showStatus("Skill not found.", true);
 };
 
-window.deleteSkill = async function(id) {
+window.deleteSkill = async function (id) {
   const confirmed = await showConfirmModal({
-    title: 'Delete Skill',
-    message: 'Are you sure you want to delete this skill? This action cannot be undone.',
-    confirmText: 'Delete', isDestructive: true
+    title: "Delete Skill",
+    message:
+      "Are you sure you want to delete this skill? This action cannot be undone.",
+    confirmText: "Delete",
+    isDestructive: true,
   });
   if (!confirmed) return;
   clearStatus();
   try {
-    const res = await fetchWithAuth(`/api/Skill/Delete/${id}`, { method: 'DELETE' });
+    const res = await fetchWithAuth(`/api/Skill/Delete/${id}`, {
+      method: "DELETE",
+    });
     if (!res.ok) {
       const data = await res.json().catch(() => null);
-      showStatus(extractErrorMessage(data, `Failed to delete skill (HTTP ${res.status}).`), true);
+      showStatus(
+        extractErrorMessage(
+          data,
+          `Failed to delete skill (HTTP ${res.status}).`,
+        ),
+        true,
+      );
       return;
     }
-    showStatus('Skill deleted successfully.', false);
+    showStatus("Skill deleted successfully.", false);
     await fetchSkills();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Network error while deleting skill.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Network error while deleting skill.", true);
   }
 };
 
-skillForm.addEventListener('submit', async (e) => {
+skillForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   clearStatus();
   clearSkillModalStatus();
@@ -788,54 +1116,77 @@ skillForm.addEventListener('submit', async (e) => {
   const skillCategory = skillCategoryInput.value.trim();
   const skillLevel = parseInt(skillLevelInput.value, 10);
 
-  if (!skillName || !skillCategory || isNaN(skillLevel) || skillLevel < 1 || skillLevel > 5) {
-    showSkillModalStatus('Name, category, and a valid level (1-5) are required.', true);
+  if (
+    !skillName ||
+    !skillCategory ||
+    isNaN(skillLevel) ||
+    skillLevel < 1 ||
+    skillLevel > 5
+  ) {
+    showSkillModalStatus(
+      "Name, category, and a valid level (1-5) are required.",
+      true,
+    );
     return;
   }
 
   const payload = { skillName, skillCategory, skillLevel };
 
   const isEdit = !!id;
-  const url = isEdit ? `/api/Skill/Update/${id}` : '/api/Skill/Add';
-  const method = isEdit ? 'PUT' : 'POST';
+  const url = isEdit ? `/api/Skill/Update/${id}` : "/api/Skill/Add";
+  const method = isEdit ? "PUT" : "POST";
 
   const originalText = skillModalSaveBtn.textContent;
   skillModalSaveBtn.disabled = true;
-  skillModalSaveBtn.classList.add('opacity-70', 'cursor-not-allowed');
-  skillModalSaveBtn.textContent = isEdit ? 'Updating...' : 'Saving...';
+  skillModalSaveBtn.classList.add("opacity-70", "cursor-not-allowed");
+  skillModalSaveBtn.textContent = isEdit ? "Updating..." : "Saving...";
 
   try {
     const res = await fetchWithAuth(url, {
       method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
     const data = await res.json().catch(() => null);
     if (!res.ok) {
-      showSkillModalStatus(extractErrorMessage(data, isEdit ? `Failed to update skill (HTTP ${res.status}).` : `Failed to add skill (HTTP ${res.status}).`), true);
+      showSkillModalStatus(
+        extractErrorMessage(
+          data,
+          isEdit
+            ? `Failed to update skill (HTTP ${res.status}).`
+            : `Failed to add skill (HTTP ${res.status}).`,
+        ),
+        true,
+      );
       return;
     }
     closeSkillModal();
-    showStatus(isEdit ? 'Skill updated successfully.' : 'Skill added successfully.', false);
+    showStatus(
+      isEdit ? "Skill updated successfully." : "Skill added successfully.",
+      false,
+    );
     await fetchSkills();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showSkillModalStatus(`Error: ${err.message || 'Network error.'}`, true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showSkillModalStatus(`Error: ${err.message || "Network error."}`, true);
   } finally {
     skillModalSaveBtn.disabled = false;
-    skillModalSaveBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+    skillModalSaveBtn.classList.remove("opacity-70", "cursor-not-allowed");
     skillModalSaveBtn.textContent = originalText;
   }
 });
 
-addSkillBtn.addEventListener('click', () => openSkillModal());
-skillModalCloseBtn.addEventListener('click', closeSkillModal);
-skillModalCancelBtn.addEventListener('click', closeSkillModal);
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !skillModal.classList.contains('hidden')) closeSkillModal();
+addSkillBtn.addEventListener("click", () => openSkillModal());
+skillModalCloseBtn.addEventListener("click", closeSkillModal);
+skillModalCancelBtn.addEventListener("click", closeSkillModal);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !skillModal.classList.contains("hidden"))
+    closeSkillModal();
 });
-skillModal.addEventListener('mousedown', (e) => { mouseDownOnSkillBackdrop = (e.target === skillModal); });
-skillModal.addEventListener('mouseup', (e) => {
+skillModal.addEventListener("mousedown", (e) => {
+  mouseDownOnSkillBackdrop = e.target === skillModal;
+});
+skillModal.addEventListener("mouseup", (e) => {
   if (mouseDownOnSkillBackdrop && e.target === skillModal) closeSkillModal();
   mouseDownOnSkillBackdrop = false;
 });
@@ -845,20 +1196,20 @@ function openSocialLinkModal(link = null) {
   socialLinkForm.reset();
   clearSocialLinkModalStatus();
   if (link) {
-    const id = link.socialLinkId ?? link.id ?? link.SocialLinkId ?? '';
-    socialLinkModalTitle.textContent = 'Edit Social Link';
+    const id = link.socialLinkId ?? link.id ?? link.SocialLinkId ?? "";
+    socialLinkModalTitle.textContent = "Edit Social Link";
     socialLinkIdInput.value = id;
-    socialLinkPlatformInput.value = link.platform || link.Platform || '';
-    socialLinkUrlInput.value = link.url || link.Url || '';
+    socialLinkPlatformInput.value = link.platform || link.Platform || "";
+    socialLinkUrlInput.value = link.url || link.Url || "";
   } else {
-    socialLinkModalTitle.textContent = 'Add Social Link';
-    socialLinkIdInput.value = '';
+    socialLinkModalTitle.textContent = "Add Social Link";
+    socialLinkIdInput.value = "";
   }
-  socialLinkModal.classList.remove('hidden');
+  socialLinkModal.classList.remove("hidden");
 }
 
 function closeSocialLinkModal() {
-  socialLinkModal.classList.add('hidden');
+  socialLinkModal.classList.add("hidden");
   clearSocialLinkModalStatus();
   socialLinkForm.reset();
 }
@@ -866,9 +1217,9 @@ function closeSocialLinkModal() {
 async function fetchSocialLinks() {
   socialLinksTableBody.innerHTML = `<tr><td colspan="4" class="py-6 px-4 text-center text-slate-500">Loading social links...</td></tr>`;
   try {
-    const res = await fetchWithAuth('/api/SocialLink/Get/All');
+    const res = await fetchWithAuth("/api/SocialLink/Get/All");
     if (!res.ok) {
-      showStatus('Failed to load social links.', true);
+      showStatus("Failed to load social links.", true);
       socialLinksTableBody.innerHTML = `<tr><td colspan="4" class="py-6 px-4 text-center text-rose-400">Error loading social links.</td></tr>`;
       return;
     }
@@ -892,8 +1243,8 @@ async function fetchSocialLinks() {
     renderSocialLinksTable(links);
     initSocialLinkSortable();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Error connecting to social link service.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Error connecting to social link service.", true);
   }
 }
 
@@ -902,12 +1253,13 @@ function renderSocialLinksTable(links) {
     socialLinksTableBody.innerHTML = `<tr><td colspan="4" class="py-6 px-4 text-center text-slate-400">No social links found. Add one above!</td></tr>`;
     return;
   }
-  socialLinksTableBody.innerHTML = links.map(link => {
-    const id = link.socialLinkId ?? link.id ?? link.SocialLinkId;
-    const platform = link.platform || link.Platform || 'Platform';
-    const url = link.url || link.Url || '#';
+  socialLinksTableBody.innerHTML = links
+    .map((link) => {
+      const id = link.socialLinkId ?? link.id ?? link.SocialLinkId;
+      const platform = link.platform || link.Platform || "Platform";
+      const url = link.url || link.Url || "#";
 
-    return `
+      return `
       <tr data-social-link-id="${id}" class="hover:bg-slate-900/60 transition-colors">
         <td class="py-3 px-2 w-10 text-center">
           <i class="fa-solid fa-grip-vertical text-slate-500 hover:text-teal-400 cursor-grab drag-handle transition-colors"></i>
@@ -926,87 +1278,104 @@ function renderSocialLinksTable(links) {
           <button type="button" onclick="deleteSocialLink('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-rose-950/60 text-rose-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-trash mr-1"></i>Delete</button>
         </td>
       </tr>`;
-  }).join('');
+    })
+    .join("");
 }
 
 function initSocialLinkSortable() {
   if (socialLinkSortable) socialLinkSortable.destroy();
   socialLinkSortable = new Sortable(socialLinksTableBody, {
     animation: 150,
-    handle: '.drag-handle',
-    ghostClass: 'sortable-ghost',
-    dragClass: 'sortable-drag',
-    onEnd: handleSocialLinkReorder
+    handle: ".drag-handle",
+    ghostClass: "sortable-ghost",
+    dragClass: "sortable-drag",
+    onEnd: handleSocialLinkReorder,
   });
 }
 
 async function handleSocialLinkReorder() {
-  const rows = Array.from(socialLinksTableBody.querySelectorAll('tr[data-social-link-id]'));
+  const rows = Array.from(
+    socialLinksTableBody.querySelectorAll("tr[data-social-link-id]"),
+  );
 
   const items = rows.map((r, i) => ({
     socialLinkId: parseInt(r.dataset.socialLinkId, 10),
-    displayOrder: i + 1
+    displayOrder: i + 1,
   }));
 
   if (items.length === 0) return;
 
-  showStatus('Saving new order...', false);
+  showStatus("Saving new order...", false);
 
   try {
-    const res = await fetchWithAuth('/api/SocialLink/Reorder', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(items)
+    const res = await fetchWithAuth("/api/SocialLink/Reorder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(items),
     });
 
     if (!res.ok) {
       const data = await res.json().catch(() => null);
-      const msg = extractErrorMessage(data, `Failed to save order (HTTP ${res.status}).`);
+      const msg = extractErrorMessage(
+        data,
+        `Failed to save order (HTTP ${res.status}).`,
+      );
       showStatus(msg, true);
       await fetchSocialLinks();
       return;
     }
 
-    showStatus('Order updated successfully.', false);
+    showStatus("Order updated successfully.", false);
     await fetchSocialLinks();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Network error while saving order.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Network error while saving order.", true);
     await fetchSocialLinks();
   }
 }
 
-window.editSocialLink = function(id) {
-  const link = socialLinksCache.find(x => String(x.socialLinkId ?? x.id ?? x.SocialLinkId) === String(id));
+window.editSocialLink = function (id) {
+  const link = socialLinksCache.find(
+    (x) => String(x.socialLinkId ?? x.id ?? x.SocialLinkId) === String(id),
+  );
   if (link) openSocialLinkModal(link);
-  else showStatus('Social link not found.', true);
+  else showStatus("Social link not found.", true);
 };
 
-window.deleteSocialLink = async function(id) {
+window.deleteSocialLink = async function (id) {
   const confirmed = await showConfirmModal({
-    title: 'Delete Social Link',
-    message: 'Are you sure you want to delete this social link? This action cannot be undone.',
-    confirmText: 'Delete',
-    isDestructive: true
+    title: "Delete Social Link",
+    message:
+      "Are you sure you want to delete this social link? This action cannot be undone.",
+    confirmText: "Delete",
+    isDestructive: true,
   });
   if (!confirmed) return;
   clearStatus();
   try {
-    const res = await fetchWithAuth(`/api/SocialLink/Delete/${id}`, { method: 'DELETE' });
+    const res = await fetchWithAuth(`/api/SocialLink/Delete/${id}`, {
+      method: "DELETE",
+    });
     if (!res.ok) {
       const data = await res.json().catch(() => null);
-      showStatus(extractErrorMessage(data, `Failed to delete social link (HTTP ${res.status}).`), true);
+      showStatus(
+        extractErrorMessage(
+          data,
+          `Failed to delete social link (HTTP ${res.status}).`,
+        ),
+        true,
+      );
       return;
     }
-    showStatus('Social link deleted successfully.', false);
+    showStatus("Social link deleted successfully.", false);
     await fetchSocialLinks();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Network error while deleting social link.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Network error while deleting social link.", true);
   }
 };
 
-socialLinkForm.addEventListener('submit', async (e) => {
+socialLinkForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   clearStatus();
   clearSocialLinkModalStatus();
@@ -1016,89 +1385,111 @@ socialLinkForm.addEventListener('submit', async (e) => {
   const url = socialLinkUrlInput.value.trim();
 
   if (!platform || !url) {
-    showSocialLinkModalStatus('Platform and URL are required.', true);
+    showSocialLinkModalStatus("Platform and URL are required.", true);
     return;
   }
 
   const payload = { platform, url };
 
   const isEdit = !!id;
-  const requestUrl = isEdit ? `/api/SocialLink/Update/${id}` : '/api/SocialLink/Add';
-  const method = isEdit ? 'PUT' : 'POST';
+  const requestUrl = isEdit
+    ? `/api/SocialLink/Update/${id}`
+    : "/api/SocialLink/Add";
+  const method = isEdit ? "PUT" : "POST";
 
   const originalText = socialLinkModalSaveBtn.textContent;
   socialLinkModalSaveBtn.disabled = true;
-  socialLinkModalSaveBtn.classList.add('opacity-70', 'cursor-not-allowed');
-  socialLinkModalSaveBtn.textContent = isEdit ? 'Updating...' : 'Saving...';
+  socialLinkModalSaveBtn.classList.add("opacity-70", "cursor-not-allowed");
+  socialLinkModalSaveBtn.textContent = isEdit ? "Updating..." : "Saving...";
 
   try {
     const res = await fetchWithAuth(requestUrl, {
       method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
     const data = await res.json().catch(() => null);
     if (!res.ok) {
-      showSocialLinkModalStatus(extractErrorMessage(data, isEdit ? `Failed to update social link (HTTP ${res.status}).` : `Failed to add social link (HTTP ${res.status}).`), true);
+      showSocialLinkModalStatus(
+        extractErrorMessage(
+          data,
+          isEdit
+            ? `Failed to update social link (HTTP ${res.status}).`
+            : `Failed to add social link (HTTP ${res.status}).`,
+        ),
+        true,
+      );
       return;
     }
     closeSocialLinkModal();
-    showStatus(isEdit ? 'Social link updated successfully.' : 'Social link added successfully.', false);
+    showStatus(
+      isEdit
+        ? "Social link updated successfully."
+        : "Social link added successfully.",
+      false,
+    );
     await fetchSocialLinks();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showSocialLinkModalStatus(`Error: ${err.message || 'Network error.'}`, true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showSocialLinkModalStatus(
+      `Error: ${err.message || "Network error."}`,
+      true,
+    );
   } finally {
     socialLinkModalSaveBtn.disabled = false;
-    socialLinkModalSaveBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+    socialLinkModalSaveBtn.classList.remove("opacity-70", "cursor-not-allowed");
     socialLinkModalSaveBtn.textContent = originalText;
   }
 });
 
-addSocialLinkBtn.addEventListener('click', () => openSocialLinkModal());
-socialLinkModalCloseBtn.addEventListener('click', closeSocialLinkModal);
-socialLinkModalCancelBtn.addEventListener('click', closeSocialLinkModal);
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !socialLinkModal.classList.contains('hidden')) closeSocialLinkModal();
+addSocialLinkBtn.addEventListener("click", () => openSocialLinkModal());
+socialLinkModalCloseBtn.addEventListener("click", closeSocialLinkModal);
+socialLinkModalCancelBtn.addEventListener("click", closeSocialLinkModal);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !socialLinkModal.classList.contains("hidden"))
+    closeSocialLinkModal();
 });
-socialLinkModal.addEventListener('mousedown', (e) => { mouseDownOnSocialLinkBackdrop = (e.target === socialLinkModal); });
-socialLinkModal.addEventListener('mouseup', (e) => {
-  if (mouseDownOnSocialLinkBackdrop && e.target === socialLinkModal) closeSocialLinkModal();
+socialLinkModal.addEventListener("mousedown", (e) => {
+  mouseDownOnSocialLinkBackdrop = e.target === socialLinkModal;
+});
+socialLinkModal.addEventListener("mouseup", (e) => {
+  if (mouseDownOnSocialLinkBackdrop && e.target === socialLinkModal)
+    closeSocialLinkModal();
   mouseDownOnSocialLinkBackdrop = false;
 });
 
 // ---------- Profile ----------
 async function fetchProfile() {
   try {
-    const res = await fetchWithAuth('/api/PortfolioProfile/Get/Profile');
+    const res = await fetchWithAuth("/api/PortfolioProfile/Get/Profile");
     if (!res.ok) {
       if (res.status === 404) {
         profileCache = null;
-        if (profileCard) profileCard.classList.add('hidden');
-        if (profileEmptyState) profileEmptyState.classList.remove('hidden');
+        if (profileCard) profileCard.classList.add("hidden");
+        if (profileEmptyState) profileEmptyState.classList.remove("hidden");
         return;
       }
-      showStatus('Failed to load profile.', true);
+      showStatus("Failed to load profile.", true);
       return;
     }
     const data = await res.json();
     profileCache = data;
 
     if (!data) {
-      if (profileCard) profileCard.classList.add('hidden');
-      if (profileEmptyState) profileEmptyState.classList.remove('hidden');
+      if (profileCard) profileCard.classList.add("hidden");
+      if (profileEmptyState) profileEmptyState.classList.remove("hidden");
       return;
     }
 
-    if (profileCard) profileCard.classList.remove('hidden');
-    if (profileEmptyState) profileEmptyState.classList.add('hidden');
+    if (profileCard) profileCard.classList.remove("hidden");
+    if (profileEmptyState) profileEmptyState.classList.add("hidden");
 
-    const fullName = data.fullName || data.FullName || '-';
-    const title = data.professionalTitle || data.ProfessionalTitle || '-';
-    const email = data.email || data.Email || '-';
-    const location = data.location || data.Location || '-';
-    const imageUrl = data.profileImageUrl || data.ProfileImageUrl || '-';
-    const bio = data.bio || data.Bio || '-';
+    const fullName = data.fullName || data.FullName || "-";
+    const title = data.professionalTitle || data.ProfessionalTitle || "-";
+    const email = data.email || data.Email || "-";
+    const location = data.location || data.Location || "-";
+    const imageUrl = data.profileImageUrl || data.ProfileImageUrl || "-";
+    const bio = data.bio || data.Bio || "-";
 
     if (profileViewFullname) profileViewFullname.textContent = fullName;
     if (profileViewTitle) profileViewTitle.textContent = title;
@@ -1107,8 +1498,8 @@ async function fetchProfile() {
     if (profileViewImage) profileViewImage.textContent = imageUrl;
     if (profileViewBio) profileViewBio.textContent = bio;
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showStatus('Error connecting to profile service.', true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Error connecting to profile service.", true);
   }
 }
 
@@ -1116,33 +1507,38 @@ function openProfileModal() {
   profileForm.reset();
   clearProfileModalStatus();
   if (profileCache) {
-    const id = profileCache.portfolioProfileId
-      ?? profileCache.PortfolioProfileId
-      ?? profileCache.profileId
-      ?? profileCache.ProfileId
-      ?? profileCache.id
-      ?? '';
+    const id =
+      profileCache.portfolioProfileId ??
+      profileCache.PortfolioProfileId ??
+      profileCache.profileId ??
+      profileCache.ProfileId ??
+      profileCache.id ??
+      "";
 
     profileIdInput.value = id;
-    profileFullnameInput.value = profileCache.fullName || profileCache.FullName || '';
-    profileTitleInput.value = profileCache.professionalTitle || profileCache.ProfessionalTitle || '';
-    profileEmailInput.value = profileCache.email || profileCache.Email || '';
-    profileLocationInput.value = profileCache.location || profileCache.Location || '';
-    profileImageUrlInput.value = profileCache.profileImageUrl || profileCache.ProfileImageUrl || '';
-    profileBioInput.value = profileCache.bio || profileCache.Bio || '';
+    profileFullnameInput.value =
+      profileCache.fullName || profileCache.FullName || "";
+    profileTitleInput.value =
+      profileCache.professionalTitle || profileCache.ProfessionalTitle || "";
+    profileEmailInput.value = profileCache.email || profileCache.Email || "";
+    profileLocationInput.value =
+      profileCache.location || profileCache.Location || "";
+    profileImageUrlInput.value =
+      profileCache.profileImageUrl || profileCache.ProfileImageUrl || "";
+    profileBioInput.value = profileCache.bio || profileCache.Bio || "";
   } else {
-    profileIdInput.value = '';
+    profileIdInput.value = "";
   }
-  profileModal.classList.remove('hidden');
+  profileModal.classList.remove("hidden");
 }
 
 function closeProfileModal() {
-  profileModal.classList.add('hidden');
+  profileModal.classList.add("hidden");
   clearProfileModalStatus();
   profileForm.reset();
 }
 
-profileForm.addEventListener('submit', async (e) => {
+profileForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   clearStatus();
   clearProfileModalStatus();
@@ -1156,122 +1552,477 @@ profileForm.addEventListener('submit', async (e) => {
   const bio = profileBioInput.value.trim();
 
   if (!id) {
-    showProfileModalStatus('Profile ID is missing. Please refresh the page.', true);
+    showProfileModalStatus(
+      "Profile ID is missing. Please refresh the page.",
+      true,
+    );
     return;
   }
 
   if (!fullName || !professionalTitle || !email || !location || !bio) {
-    showProfileModalStatus('Full name, professional title, email, location, and bio are required.', true);
+    showProfileModalStatus(
+      "Full name, professional title, email, location, and bio are required.",
+      true,
+    );
     return;
   }
 
-  const payload = { fullName, professionalTitle, bio, profileImageUrl, email, location };
+  const payload = {
+    fullName,
+    professionalTitle,
+    bio,
+    profileImageUrl,
+    email,
+    location,
+  };
 
   const originalText = profileModalSaveBtn.textContent;
   profileModalSaveBtn.disabled = true;
-  profileModalSaveBtn.classList.add('opacity-70', 'cursor-not-allowed');
-  profileModalSaveBtn.textContent = 'Saving...';
+  profileModalSaveBtn.classList.add("opacity-70", "cursor-not-allowed");
+  profileModalSaveBtn.textContent = "Saving...";
 
   try {
     const url = `/api/PortfolioProfile/Update/${id}`;
     const res = await fetchWithAuth(url, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
     const data = await res.json().catch(() => null);
     if (!res.ok) {
-      showProfileModalStatus(extractErrorMessage(data, `Failed to update profile (HTTP ${res.status}).`), true);
+      showProfileModalStatus(
+        extractErrorMessage(
+          data,
+          `Failed to update profile (HTTP ${res.status}).`,
+        ),
+        true,
+      );
       return;
     }
     closeProfileModal();
-    showStatus('Profile updated successfully.', false);
+    showStatus("Profile updated successfully.", false);
     await fetchProfile();
   } catch (err) {
-    if (err.message === 'SESSION_EXPIRED') return;
-    showProfileModalStatus(`Error: ${err.message || 'Network error.'}`, true);
+    if (err.message === "SESSION_EXPIRED") return;
+    showProfileModalStatus(`Error: ${err.message || "Network error."}`, true);
   } finally {
     profileModalSaveBtn.disabled = false;
-    profileModalSaveBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+    profileModalSaveBtn.classList.remove("opacity-70", "cursor-not-allowed");
     profileModalSaveBtn.textContent = originalText;
   }
 });
 
-editProfileBtn.addEventListener('click', openProfileModal);
-profileModalCloseBtn.addEventListener('click', closeProfileModal);
-profileModalCancelBtn.addEventListener('click', closeProfileModal);
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !profileModal.classList.contains('hidden')) closeProfileModal();
+editProfileBtn.addEventListener("click", openProfileModal);
+profileModalCloseBtn.addEventListener("click", closeProfileModal);
+profileModalCancelBtn.addEventListener("click", closeProfileModal);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !profileModal.classList.contains("hidden"))
+    closeProfileModal();
 });
-profileModal.addEventListener('mousedown', (e) => { mouseDownOnProfileBackdrop = (e.target === profileModal); });
-profileModal.addEventListener('mouseup', (e) => {
-  if (mouseDownOnProfileBackdrop && e.target === profileModal) closeProfileModal();
+profileModal.addEventListener("mousedown", (e) => {
+  mouseDownOnProfileBackdrop = e.target === profileModal;
+});
+profileModal.addEventListener("mouseup", (e) => {
+  if (mouseDownOnProfileBackdrop && e.target === profileModal)
+    closeProfileModal();
   mouseDownOnProfileBackdrop = false;
 });
 
 // ---------- View Toggles ----------
 function showDashboard() {
-  loginView.classList.add('hidden');
-  dashboardView.classList.remove('hidden');
-  switchTab('projects');
+  loginView.classList.add("hidden");
+  dashboardView.classList.remove("hidden");
+  switchTab("projects");
   fetchProjects();
 }
 function showLogin() {
-  dashboardView.classList.add('hidden');
-  loginView.classList.remove('hidden');
+  dashboardView.classList.add("hidden");
+  loginView.classList.remove("hidden");
 }
 function checkAuth() {
-  if (localStorage.getItem('accessToken')) showDashboard();
+  if (localStorage.getItem("accessToken")) showDashboard();
   else showLogin();
 }
 
 // ---------- Password Toggle ----------
 if (togglePasswordBtn && togglePasswordIcon) {
-  togglePasswordBtn.addEventListener('click', () => {
-    const isHidden = passwordInput.type === 'password';
-    passwordInput.type = isHidden ? 'text' : 'password';
-    togglePasswordIcon.className = isHidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+  togglePasswordBtn.addEventListener("click", () => {
+    const isHidden = passwordInput.type === "password";
+    passwordInput.type = isHidden ? "text" : "password";
+    togglePasswordIcon.className = isHidden
+      ? "fa-solid fa-eye-slash"
+      : "fa-solid fa-eye";
   });
 }
 
 // ---------- Login ----------
-loginForm.addEventListener('submit', async (e) => {
+loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   clearStatus();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
-  if (!email || !password) { showStatus('Please enter both email and password.'); return; }
+  if (!email || !password) {
+    showStatus("Please enter both email and password.");
+    return;
+  }
   submitBtn.disabled = true;
-  submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+  submitBtn.classList.add("opacity-70", "cursor-not-allowed");
   try {
-    const res = await fetch('/api/Auth/Login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+    const res = await fetch("/api/Auth/Login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
     const data = await res.json().catch(() => null);
-    if (!res.ok) { showStatus(extractErrorMessage(data, 'Login failed.')); return; }
+    if (!res.ok) {
+      showStatus(extractErrorMessage(data, "Login failed."));
+      return;
+    }
     const accessToken = data?.accessToken || data?.AccessToken;
     const refreshToken = data?.refreshToken || data?.RefreshToken;
-    if (!accessToken) { showStatus('Invalid server response: Access token missing.'); return; }
-    localStorage.setItem('accessToken', accessToken);
-    if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
+    if (!accessToken) {
+      showStatus("Invalid server response: Access token missing.");
+      return;
+    }
+    localStorage.setItem("accessToken", accessToken);
+    if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
     loginForm.reset();
     showDashboard();
   } catch (err) {
-    showStatus('Network error or server unavailable.');
+    showStatus("Network error or server unavailable.");
   } finally {
     submitBtn.disabled = false;
-    submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+    submitBtn.classList.remove("opacity-70", "cursor-not-allowed");
   }
 });
 
+// ---------- Users ----------
+async function fetchUsers() {
+  usersTableBody.innerHTML = `<tr><td colspan="4" class="py-6 px-4 text-center text-slate-500">Loading users...</td></tr>`;
+  try {
+    const res = await fetchWithAuth("/api/User/Get/All");
+    if (!res.ok) {
+      showStatus("Failed to load users.", true);
+      usersTableBody.innerHTML = `<tr><td colspan="4" class="py-6 px-4 text-center text-rose-400">Error loading users.</td></tr>`;
+      return;
+    }
+    const data = await res.json();
+    let users = [];
+    if (Array.isArray(data)) users = data;
+    else if (Array.isArray(data?.users)) users = data.users;
+    else if (Array.isArray(data?.data)) users = data.data;
+    else if (Array.isArray(data?.items)) users = data.items;
+
+    usersCache = users;
+    renderUsersTable(users);
+  } catch (err) {
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Error connecting to user service.", true);
+  }
+}
+
+function formatDateTime(dateString) {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "N/A";
+  return date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
+function renderUsersTable(users) {
+  if (!users || users.length === 0) {
+    usersTableBody.innerHTML = `<tr><td colspan="5" class="py-6 px-4 text-center text-slate-400">No users found.</td></tr>`;
+    return;
+  }
+  usersTableBody.innerHTML = users
+    .map((user) => {
+      const id = user.userId ?? user.id ?? user.UserId;
+      const email = user.email || user.Email || "";
+      const isActive = user.isActive ?? user.IsActive ?? true;
+      const createdAt = user.createdAt || user.CreatedAt || "";
+      const lastLoginAt = user.lastLoginAt || user.LastLoginAt || "";
+
+      const statusBadge = isActive
+        ? `<span class="inline-block py-0.5 px-2 rounded-md bg-emerald-950/80 border border-emerald-500/50 text-xs text-emerald-300">Active</span>`
+        : `<span class="inline-block py-0.5 px-2 rounded-md bg-rose-950/80 border border-rose-500/50 text-xs text-rose-300">Inactive</span>`;
+
+      const toggleText = isActive ? "Deactivate" : "Activate";
+      const toggleClass = isActive
+        ? "bg-slate-800 hover:bg-rose-950/60 text-rose-400"
+        : "bg-slate-800 hover:bg-emerald-950/60 text-emerald-400";
+
+      return `
+      <tr data-user-id="${id}" class="hover:bg-slate-900/60 transition-colors">
+        <td data-label="Email" class="py-3 px-4 font-medium text-white max-w-[250px] truncate" title="${escapeHtml(email)}">${escapeHtml(email)}</td>
+        <td data-label="Status" class="py-3 px-4 whitespace-nowrap">${statusBadge}</td>
+        <td data-label="Created" class="py-3 px-4 text-slate-400 whitespace-nowrap"><span dir="ltr">${formatDateTime(createdAt)}</span></td>
+        <td data-label="Last Login" class="py-3 px-4 text-slate-400 whitespace-nowrap"><span dir="ltr">${formatDateTime(lastLoginAt)}</span></td>
+        <td data-label="Actions" class="py-3 px-4 text-right space-x-2 whitespace-nowrap">
+          <button type="button" onclick="toggleUserStatus('${id}', ${isActive})" class="py-1 px-2.5 rounded ${toggleClass} text-xs font-medium transition-colors cursor-pointer">${toggleText}</button>
+          <button type="button" onclick="editUserEmail('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-slate-700 text-teal-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-envelope mr-1"></i>Email</button>
+          <button type="button" onclick="editUserPassword('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-key mr-1"></i>Password</button>
+          <button type="button" onclick="deleteUser('${id}')" class="py-1 px-2.5 rounded bg-slate-800 hover:bg-rose-950/60 text-rose-400 text-xs font-medium transition-colors cursor-pointer"><i class="fa-solid fa-trash mr-1"></i>Delete</button>
+        </td>
+      </tr>`;
+    })
+    .join("");
+}
+
+window.toggleUserStatus = async function (id, status) {
+  clearStatus();
+  try {
+    const res = await fetchWithAuth("/api/User/Update/Status", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: parseInt(id, 10), isActive: !status }),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const msg = extractErrorMessage(
+        data,
+        `Failed to update user status (HTTP ${res.status}).`,
+      );
+      showStatus(msg, true);
+      return;
+    }
+    showStatus("User status updated successfully.", false);
+    await fetchUsers();
+  } catch (err) {
+    if (err.message === "SESSION_EXPIRED") return;
+    showStatus("Network error while updating user status.", true);
+  }
+};
+
+window.editUserEmail = function (id) {
+  const u = usersCache.find(
+    (x) => String(x.userId ?? x.id ?? x.UserId) === String(id),
+  );
+  if (u) {
+    openUserEditEmailModal(id, u.email || u.Email || "");
+  } else {
+    showStatus("User not found.", true);
+  }
+};
+
+window.editUserPassword = function (id) {
+  openUserEditPasswordModal(id);
+};
+
+window.deleteUser = async function (id) {
+  const confirmed = await showConfirmModal({
+    title: "Delete User",
+    message:
+      "Are you sure you want to delete this user? This action requires master password.",
+    confirmText: "Continue",
+    isDestructive: true,
+  });
+  if (!confirmed) return;
+  openUserDeleteModal(id);
+};
+
+userAddForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  clearUserAddModalStatus();
+  const email = userAddEmailInput.value.trim();
+  const password = userAddPasswordInput.value;
+  try {
+    const res = await fetchWithAuth("/api/User/Add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      showUserAddModalStatus(
+        extractErrorMessage(data, `Failed to add user (HTTP ${res.status}).`),
+        true,
+      );
+      return;
+    }
+    closeUserAddModal();
+    showStatus("User added successfully.", false);
+    await fetchUsers();
+  } catch (err) {
+    if (err.message === "SESSION_EXPIRED") return;
+    showUserAddModalStatus("Network error while adding user.", true);
+  }
+});
+
+userEditEmailForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  clearUserEditEmailModalStatus();
+  const userId = parseInt(userEditEmailIdInput.value, 10);
+  const newEmail = userEditEmailInput.value.trim();
+  try {
+    const res = await fetchWithAuth("/api/User/Update/Email", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, newEmail }),
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      showUserEditEmailModalStatus(
+        extractErrorMessage(
+          data,
+          `Failed to update email (HTTP ${res.status}).`,
+        ),
+        true,
+      );
+      return;
+    }
+    closeUserEditEmailModal();
+    showStatus("Email updated successfully.", false);
+    await fetchUsers();
+  } catch (err) {
+    if (err.message === "SESSION_EXPIRED") return;
+    showUserEditEmailModalStatus("Network error while updating email.", true);
+  }
+});
+
+userEditPasswordForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  clearUserEditPasswordModalStatus();
+  const currentPassword = userEditPasswordCurrentInput.value;
+  const newPassword = userEditPasswordNewInput.value;
+  try {
+    const res = await fetchWithAuth("/api/User/Update/Password", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      showUserEditPasswordModalStatus(
+        extractErrorMessage(
+          data,
+          `Failed to update password (HTTP ${res.status}).`,
+        ),
+        true,
+      );
+      return;
+    }
+    closeUserEditPasswordModal();
+    showStatus("Password updated successfully.", false);
+    await fetchUsers();
+  } catch (err) {
+    if (err.message === "SESSION_EXPIRED") return;
+    showUserEditPasswordModalStatus(
+      "Network error while updating password.",
+      true,
+    );
+  }
+});
+
+userDeleteForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  clearUserDeleteModalStatus();
+  const targetUserId = parseInt(userDeleteTargetIdInput.value, 10);
+  const masterPassword = userDeleteMasterPasswordInput.value;
+  try {
+    const res = await fetchWithAuth("/api/User/Delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ targetUserId, masterPassword }),
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      showUserDeleteModalStatus(
+        extractErrorMessage(
+          data,
+          `Failed to delete user (HTTP ${res.status}).`,
+        ),
+        true,
+      );
+      return;
+    }
+    closeUserDeleteModal();
+    showStatus("User deleted successfully.", false);
+    await fetchUsers();
+  } catch (err) {
+    if (err.message === "SESSION_EXPIRED") return;
+    showUserDeleteModalStatus("Network error while deleting user.", true);
+  }
+});
+
+addUserBtn.addEventListener("click", () => openUserAddModal());
+userAddModalCloseBtn.addEventListener("click", closeUserAddModal);
+userAddModalCancelBtn.addEventListener("click", closeUserAddModal);
+
+userEditEmailModalCloseBtn.addEventListener("click", closeUserEditEmailModal);
+userEditEmailModalCancelBtn.addEventListener("click", closeUserEditEmailModal);
+
+userEditPasswordModalCloseBtn.addEventListener(
+  "click",
+  closeUserEditPasswordModal,
+);
+userEditPasswordModalCancelBtn.addEventListener(
+  "click",
+  closeUserEditPasswordModal,
+);
+
+userDeleteModalCloseBtn.addEventListener("click", closeUserDeleteModal);
+userDeleteModalCancelBtn.addEventListener("click", closeUserDeleteModal);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (!userAddModal.classList.contains("hidden")) closeUserAddModal();
+    if (!userEditEmailModal.classList.contains("hidden"))
+      closeUserEditEmailModal();
+    if (!userEditPasswordModal.classList.contains("hidden"))
+      closeUserEditPasswordModal();
+    if (!userDeleteModal.classList.contains("hidden")) closeUserDeleteModal();
+  }
+});
+
+userAddModal.addEventListener("mousedown", (e) => {
+  mouseDownOnUserAddBackdrop = e.target === userAddModal;
+});
+userAddModal.addEventListener("mouseup", (e) => {
+  if (mouseDownOnUserAddBackdrop && e.target === userAddModal)
+    closeUserAddModal();
+  mouseDownOnUserAddBackdrop = false;
+});
+
+userEditEmailModal.addEventListener("mousedown", (e) => {
+  mouseDownOnUserEditEmailBackdrop = e.target === userEditEmailModal;
+});
+userEditEmailModal.addEventListener("mouseup", (e) => {
+  if (mouseDownOnUserEditEmailBackdrop && e.target === userEditEmailModal)
+    closeUserEditEmailModal();
+  mouseDownOnUserEditEmailBackdrop = false;
+});
+
+userEditPasswordModal.addEventListener("mousedown", (e) => {
+  mouseDownOnUserEditPasswordBackdrop = e.target === userEditPasswordModal;
+});
+userEditPasswordModal.addEventListener("mouseup", (e) => {
+  if (mouseDownOnUserEditPasswordBackdrop && e.target === userEditPasswordModal)
+    closeUserEditPasswordModal();
+  mouseDownOnUserEditPasswordBackdrop = false;
+});
+
+userDeleteModal.addEventListener("mousedown", (e) => {
+  mouseDownOnUserDeleteBackdrop = e.target === userDeleteModal;
+});
+userDeleteModal.addEventListener("mouseup", (e) => {
+  if (mouseDownOnUserDeleteBackdrop && e.target === userDeleteModal)
+    closeUserDeleteModal();
+  mouseDownOnUserDeleteBackdrop = false;
+});
+
 // ---------- Tabs & Logout ----------
-logoutBtn.addEventListener('click', showLogoutConfirm);
-tabProjects.addEventListener('click', () => switchTab('projects'));
-tabSkills.addEventListener('click', () => switchTab('skills'));
-tabSocialLinks.addEventListener('click', () => switchTab('social-links'));
-tabProfile.addEventListener('click', () => switchTab('profile'));
+logoutBtn.addEventListener("click", showLogoutConfirm);
+tabProjects.addEventListener("click", () => switchTab("projects"));
+tabSkills.addEventListener("click", () => switchTab("skills"));
+tabSocialLinks.addEventListener("click", () => switchTab("social-links"));
+tabProfile.addEventListener("click", () => switchTab("profile"));
+tabUsers.addEventListener("click", () => switchTab("users"));
 
 // ---------- Init ----------
 injectLogoutModal();

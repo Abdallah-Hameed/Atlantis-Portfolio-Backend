@@ -18,6 +18,25 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet("Get/All")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        var users = await _userService.GetAllUsersAsync();
+        var response = users.Select(user => new clsUserResponseDto
+        {
+            UserId = user.UserId,
+            Email = user.Email,
+            IsActive = user.IsActive,
+            CreatedAt = user.CreatedAt,
+            LastLoginAt = user.LastLoginAt
+        }).ToList();
+
+        return Ok(response);
+    }
+
+
+    [Authorize]
     [HttpGet("Get/{userId:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]

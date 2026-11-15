@@ -23,7 +23,7 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    #hero-name, #hero-title, #hero-bio-short, #about-bio,
+    #hero-name, #hero-title, #about-bio,
     #about-location, #about-title, #contact-email, #footer-copy,
     #projects-container h3, #projects-container p,
     #skills-container h3, #skills-container .grid span,
@@ -46,9 +46,10 @@
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+        <nav class="hidden md:flex shrink-0 items-center space-x-1 lg:space-x-2 whitespace-nowrap">
           <a href="#hero" class="px-3 py-2 text-sm font-medium text-slate-300 hover:text-teal-400 hover:bg-slate-900/60 rounded-md transition-all">Home</a>
           <a href="#about" class="px-3 py-2 text-sm font-medium text-slate-300 hover:text-teal-400 hover:bg-slate-900/60 rounded-md transition-all">About</a>
+          <a href="#experience" class="px-3 py-2 text-sm font-medium text-slate-300 hover:text-teal-400 hover:bg-slate-900/60 rounded-md transition-all">Professional Experience</a>
           <a href="#projects" class="px-3 py-2 text-sm font-medium text-slate-300 hover:text-teal-400 hover:bg-slate-900/60 rounded-md transition-all">Projects</a>
           <a href="#skills" class="px-3 py-2 text-sm font-medium text-slate-300 hover:text-teal-400 hover:bg-slate-900/60 rounded-md transition-all">Skills</a>
           <a href="#contact" class="px-3 py-2 text-sm font-medium text-slate-300 hover:text-teal-400 hover:bg-slate-900/60 rounded-md transition-all">Contact</a>
@@ -64,6 +65,7 @@
       <nav id="mobile-menu" class="hidden md:hidden py-3 border-t border-slate-800/60 space-y-1">
         <a href="#hero" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900">Home</a>
         <a href="#about" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900">About</a>
+        <a href="#experience" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900">Professional Experience</a>
         <a href="#projects" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900">Projects</a>
         <a href="#skills" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900">Skills</a>
         <a href="#contact" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900">Contact</a>
@@ -103,16 +105,14 @@
 
           <div class="flex w-fit max-w-full mx-auto items-center justify-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-300 text-xs sm:text-sm font-medium mb-4">
             <span class="w-2 h-2 shrink-0 rounded-full bg-teal-400 animate-ping"></span>
-            Available for new opportunities
+            Open to Full-Stack &amp; .NET Development Opportunities
           </div>
 
           <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-4">
             Hi, I'm <span id="hero-name" class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-200 to-cyan-400">Developer</span>
           </h1>
 
-          <p id="hero-title" class="text-xl sm:text-2xl text-slate-400 font-medium mb-6">Software Engineer</p>
-
-          <p id="hero-bio-short" class="max-w-2xl mx-auto text-base sm:text-lg text-slate-300 leading-relaxed mb-8"></p>
+          <p id="hero-title" class="text-xl sm:text-2xl text-slate-400 font-medium mb-8">Junior Full-Stack Web Developer</p>
 
           <div class="flex flex-wrap items-center justify-center gap-4">
             <a href="#projects" class="px-6 py-3 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold shadow-lg shadow-teal-500/20 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
@@ -144,11 +144,11 @@
               Professional Overview
             </h3>
             <div id="about-bio" class="text-slate-300 leading-relaxed space-y-4 text-base">
-              <div class="space-y-3 animate-pulse">
-                <div class="h-4 bg-slate-800 rounded w-full"></div>
-                <div class="h-4 bg-slate-800 rounded w-5/6"></div>
-                <div class="h-4 bg-slate-800 rounded w-4/6"></div>
-              </div>
+              <p>I'm a Junior Full-Stack Web Developer with hands-on experience building secure RESTful APIs and database-driven applications using C#, ASP.NET Core, Entity Framework Core, and SQL Server.</p>
+              <p>My experience includes authentication and authorization, database design, multi-layered application architecture, and API security.</p>
+              <p>I'm currently working as a freelance developer on a real-world e-commerce platform for customizable gifts, handling its development from database design to application implementation.</p>
+              <p>I'm also expanding my frontend skills with React to strengthen my Full-Stack development capabilities.</p>
+              <p>I'm open to Junior Full-Stack Developer and .NET Backend Developer opportunities, where I can contribute to real-world projects and continue growing as a software engineer.</p>
             </div>
           </div>
 
@@ -182,12 +182,60 @@
                 </div>
                 <div class="min-w-0">
                   <div class="text-slate-400 text-xs uppercase font-medium">Focus</div>
-                  <div id="about-title" class="text-white font-medium">Loading...</div>
+                  <div id="about-title" class="text-white font-medium">Junior Full-Stack Web Developer</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Professional Experience Section -->
+    <section id="experience" aria-labelledby="experience-heading" class="scroll-mt-16 py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-900">
+      <div class="max-w-5xl mx-auto">
+        <h2 id="experience-heading" class="text-3xl sm:text-4xl font-bold text-white tracking-tight text-center mb-12">Professional Experience</h2>
+
+        <article class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 backdrop-blur shadow-sm space-y-6">
+          <header class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div class="space-y-2">
+              <h3 class="text-xl sm:text-2xl font-semibold text-white">Freelance Full-Stack Web Developer</h3>
+              <p class="font-medium text-teal-300">GiftStudio — Personalized Gifts E-Commerce Platform</p>
+              <p class="text-sm text-slate-400">Freelance / Sole Developer</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 sm:shrink-0 sm:flex-col sm:items-end">
+              <span class="text-sm text-slate-400"><time datetime="2026-11">November 2026</time> – Present</span>
+              <span class="inline-flex items-center gap-2 rounded-full border border-teal-500/20 bg-teal-500/10 px-3 py-1 text-xs font-medium text-teal-300">
+                <span class="w-2 h-2 rounded-full bg-teal-400" aria-hidden="true"></span>
+                Ongoing
+              </span>
+            </div>
+          </header>
+
+          <p class="text-slate-300 leading-relaxed">Working as the sole developer on a personalized-gifts e-commerce platform for a real client, taking responsibility for the application's technical design and development.</p>
+
+          <div class="border-t border-slate-800 pt-6">
+            <h4 class="font-semibold text-white mb-3">Key Responsibilities &amp; Achievements</h4>
+            <ul class="list-disc pl-5 space-y-2 text-sm sm:text-base text-slate-300 leading-relaxed marker:text-teal-400">
+              <li>Designed and completed a relational SQL Server database schema supporting products, design versions, customizable elements, and customization sessions.</li>
+              <li>Designed the database structure to support product personalization and flexible design customization.</li>
+              <li>Working on the application's business logic and data access layers using C# and .NET.</li>
+              <li>Developing the platform with ASP.NET Core Web API as the backend technology and React planned for the frontend.</li>
+              <li>Responsible for technical decisions, application architecture, and end-to-end development.</li>
+            </ul>
+          </div>
+
+          <div class="border-t border-slate-800 pt-6">
+            <h4 class="font-semibold text-white mb-3">Tech Stack</h4>
+            <ul class="flex flex-wrap gap-2">
+              <li class="rounded-md bg-slate-950/70 border border-slate-800 px-3 py-1 text-sm text-slate-300">C#</li>
+              <li class="rounded-md bg-slate-950/70 border border-slate-800 px-3 py-1 text-sm text-slate-300">ASP.NET Core Web API</li>
+              <li class="rounded-md bg-slate-950/70 border border-slate-800 px-3 py-1 text-sm text-slate-300">SQL Server</li>
+              <li class="rounded-md bg-slate-950/70 border border-slate-800 px-3 py-1 text-sm text-slate-300">Entity Framework Core</li>
+              <li class="rounded-md bg-slate-950/70 border border-slate-800 px-3 py-1 text-sm text-slate-300">React (Planned)</li>
+            </ul>
+          </div>
+        </article>
       </div>
     </section>
 

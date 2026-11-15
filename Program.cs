@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "https://localhost:3000",
-                "https://abdallah-hameed-portfolio.runasp.net"
+                "https://abdallah-hameed-portfolio.runasp.net/admin.html"
               )
               .AllowAnyHeader()
               .AllowAnyMethod();

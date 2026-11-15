@@ -17,6 +17,20 @@ public class clsUserService
         _logger = logger;
     }
 
+    public async Task<List<User>> GetAllUsersAsync()
+    {
+        try
+        {
+            return await _context.Users.AsNoTracking().OrderByDescending(u => u.CreatedAt).ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while retrieving all users.");
+            throw;
+        }
+    }
+
+
     public async Task<User?> GetUserByIdAsync(int userId)
     {
         if (userId <= 0)
