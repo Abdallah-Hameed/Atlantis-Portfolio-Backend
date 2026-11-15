@@ -1,4 +1,4 @@
-﻿// API Endpoints Configuration
+// API Endpoints Configuration
 const API_CONFIG = {
   profile: {
     primary: '/api/PortfolioProfile/Get/Profile'
@@ -60,7 +60,6 @@ function getSocialIcon(platform) {
   const p = (platform || '').toLowerCase();
   if (p.includes('github')) return 'fa-brands fa-github';
   if (p.includes('linkedin')) return 'fa-brands fa-linkedin-in';
-  if (p === 'whatsapp') return 'fa-brands fa-whatsapp';
   if (p.includes('twitter') || p.includes('x.com')) return 'fa-brands fa-x-twitter';
   if (p.includes('youtube')) return 'fa-brands fa-youtube';
   if (p.includes('facebook')) return 'fa-brands fa-facebook';
@@ -71,6 +70,13 @@ function getSocialIcon(platform) {
   if (p.includes('mail') || p.includes('email')) return 'fa-solid fa-envelope';
   if (p.includes('website') || p.includes('portfolio') || p.includes('globe')) return 'fa-solid fa-globe';
   return 'fa-solid fa-link';
+}
+
+function renderWhatsAppIcon(size) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 720 720" fill="#25d366" class="shrink-0" aria-hidden="true" focusable="false">
+    <path d="M360,0C161.18,0,0,161.18,0,360c0,65.41,17.45,126.75,47.94,179.61L0,720l187.02-44.21c51.34,28.18,110.28,44.21,172.98,44.21,198.82,0,360-161.18,360-360S558.82,0,360,0ZM360,655.52c-60.17,0-116.13-17.98-162.82-48.87l-110.49,28.14,30.99-105.61c-33.53-47.93-53.2-106.26-53.2-169.19,0-163.21,132.31-295.52,295.52-295.52s295.52,132.31,295.52,295.52-132.31,295.52-295.52,295.52Z"/>
+    <path d="M444.35,407.52l87.1,41.06c4,1.88,6.56,5.94,6.2,10.34-.94,11.46-5.54,34.43-26.13,55.02-58.12,58.12-162.49-7.64-166.74-10.18-25.67-13.79-50.06-32.24-73.19-55.36-23.12-23.12-41.58-47.52-55.37-73.19-2.55-4.24-68.31-108.61-10.18-166.74,20.59-20.59,43.56-25.19,55.02-26.13,4.41-.36,8.46,2.2,10.34,6.2l41.07,87.1c1.94,4.12,1.09,9.02-2.13,12.24l-30.61,30.61c-6.62,6.62-8.56,16.93-4,25.11,11.17,20.03,26.19,39.32,43.59,57.07,17.75,17.4,37.04,32.43,57.07,43.59,8.18,4.56,18.48,2.62,25.11-4l30.61-30.61c3.22-3.22,8.12-4.08,12.24-2.13Z"/>
+  </svg>`;
 }
 
 // Navigation and smooth scrolling
@@ -390,11 +396,13 @@ function renderSocialLinks(links) {
 
   if (heroContainer) {
     heroContainer.innerHTML = socialLinks.map(({ platform, url }) => {
-      const icon = getSocialIcon(platform);
+      const icon = platform.toLowerCase() === 'whatsapp'
+        ? renderWhatsAppIcon(18)
+        : `<i class="${getSocialIcon(platform)} text-lg"></i>`;
 
       return `
         <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(platform)}" class="w-10 h-10 rounded-lg bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-teal-400 hover:border-teal-500/40 hover:bg-slate-800 flex items-center justify-center transition-all hover:scale-110 shadow-sm" aria-label="${escapeHtml(platform)}">
-          <i class="${icon} text-lg"></i>
+          ${icon}
         </a>
       `;
     }).join('');
@@ -403,12 +411,14 @@ function renderSocialLinks(links) {
   if (contactContainer) {
     const contactLinks = socialLinks.includes(whatsapp) ? socialLinks : [...socialLinks, whatsapp];
     contactContainer.innerHTML = contactLinks.map(({ platform, url, phone }) => {
-      const icon = getSocialIcon(platform);
+      const icon = platform.toLowerCase() === 'whatsapp'
+        ? renderWhatsAppIcon(16)
+        : `<i class="${getSocialIcon(platform)} text-base text-teal-400" aria-hidden="true"></i>`;
       const label = phone ? ` aria-label="Chat on WhatsApp at ${escapeHtml(phone)} (opens in a new tab)"` : '';
 
       return `
         <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer"${label} class="px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800/80 text-slate-300 hover:text-teal-400 hover:border-teal-500/40 hover:bg-slate-900 flex items-center gap-2.5 text-sm font-medium transition-all shadow-sm">
-          <i class="${icon} text-base text-teal-400" aria-hidden="true"></i>
+          ${icon}
           <span>${escapeHtml(phone || platform)}</span>
         </a>
       `;
